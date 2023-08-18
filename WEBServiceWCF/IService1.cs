@@ -5,6 +5,7 @@ using System.Runtime.Serialization;
 using System.ServiceModel;
 using System.ServiceModel.Web;
 using System.Text;
+using WEBServiceWCF.Classes;
 
 namespace WEBServiceWCF
 {
@@ -22,8 +23,19 @@ namespace WEBServiceWCF
         [OperationContract]
         int VerificaLogin(int ID, int senha);
 
+
+
         // ---- CLIENTE ----
         [OperationContract]
         String GetNome(int id);
+
+
+
+        // ---- CONFIGURAÇÕES GERAIS -----
+        [OperationContract]
+        ConfiguracoesGerais GetDadosConfiguracoesGerais();
+
+        [OperationContract]
+        int SalvarConfiguracoesGerais(ConfiguracoesGerais config);
     }
 }

@@ -68,5 +68,26 @@ namespace WEBServiceWCF
 
             return clientes;
         }
+
+        // --------------------- CONFIGURAÇÕES GERAIS -------------------------------
+        public ConfiguracoesGerais GetDadosConfiguracoesGerais()
+        {
+            ConfiguracoesGerais retorno;
+
+            ConfiguracoesGeraisDAO configuracoesGeraisDAO = new ConfiguracoesGeraisDAO();
+            retorno = configuracoesGeraisDAO.getDados();
+
+            return retorno;
+        }
+
+        public int SalvarConfiguracoesGerais(ConfiguracoesGerais config)
+        {
+            int retorno;
+            ConfiguracoesGeraisDAO configuracoesGeraisDAO = new ConfiguracoesGeraisDAO();
+
+            retorno = configuracoesGeraisDAO.saveDados(config);
+
+            return retorno;
+        }
     }
 }
