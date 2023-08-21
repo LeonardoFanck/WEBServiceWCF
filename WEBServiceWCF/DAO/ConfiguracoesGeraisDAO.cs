@@ -14,7 +14,7 @@ namespace WEBServiceWCF.DAO
     {
         private static ConexaoDB conexao = new ConexaoDB();
         private SqlDataReader retornoDB;
-        private int timeOutSQL = 0;
+        private int timeOutSQL = conexao.timeOutSQL();
 
         public ConfiguracoesGerais getDados()
         {

@@ -89,5 +89,28 @@ namespace WEBServiceWCF
 
             return retorno;
         }
+
+        // --------------------- PRODUTO -------------------------------
+        public Produto GetProduto(int id)
+        {
+            Produto retorno;
+
+            ProdutoDAO produtoDAO = new ProdutoDAO();
+            retorno = produtoDAO.GetProduto(id);
+
+            return retorno;
+        }
+
+        public Produto GetProdutoInicial()
+        {
+            Produto retorno;
+            int IDProduto;
+
+            ProdutoDAO produtoDAO = new ProdutoDAO();
+            IDProduto = produtoDAO.getIDProdutoInicial();
+            retorno = produtoDAO.GetProduto(IDProduto);
+
+            return retorno;
+        }
     }
 }

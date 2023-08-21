@@ -37,5 +37,12 @@ namespace WEBServiceWCF
 
         [OperationContract]
         int SalvarConfiguracoesGerais(ConfiguracoesGerais config);
+
+        // ----- PRODUTO -----
+        [OperationContract]
+        Produto GetProduto(int id);
+
+        [OperationContract]
+        Produto GetProdutoInicial();
     }
 }

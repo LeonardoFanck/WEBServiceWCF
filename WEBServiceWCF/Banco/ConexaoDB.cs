@@ -49,6 +49,10 @@ namespace WEBServiceWCF.Banco
             return con;
         }
 
+        public int timeOutSQL()
+        {
+            return 0;
+        }
 
     }
 }
