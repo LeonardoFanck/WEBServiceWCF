@@ -6,6 +6,7 @@ using System.ServiceModel;
 using System.ServiceModel.Web;
 using System.Text;
 using WEBServiceWCF.Classes;
+using WEBServiceWCF.Exceptions;
 
 namespace WEBServiceWCF
 {
@@ -38,11 +39,25 @@ namespace WEBServiceWCF
         [OperationContract]
         int SalvarConfiguracoesGerais(ConfiguracoesGerais config);
 
+
+
         // ----- PRODUTO -----
         [OperationContract]
         Produto GetProduto(int id);
 
         [OperationContract]
         Produto GetProdutoInicial();
+
+        [OperationContract]
+        int AvancarRegistroProduto(int ID);
+
+        [OperationContract]
+        int VoltarRegistroProduto(int ID);
+
+        [OperationContract]
+        int GetEstoqueProduto(int ID);
+
+        [OperationContract]
+        List<Categoria> GetListNomeCategoria();
     }
 }

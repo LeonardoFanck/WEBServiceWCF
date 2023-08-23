@@ -7,6 +7,7 @@ using System.ServiceModel.Web;
 using System.Text;
 using WEBServiceWCF.Classes;
 using WEBServiceWCF.DAO;
+using WEBServiceWCF.Exceptions;
 
 namespace WEBServiceWCF
 {
@@ -17,100 +18,99 @@ namespace WEBServiceWCF
         // --------------------- OPERADOR -------------------------------
         public string getNomeOperador(int ID)
         {
-            string nome;
             OperadorDAO operador = new OperadorDAO();
-            nome = operador.getNomeOperador(ID);
 
-            return nome;
+            return operador.getNomeOperador(ID);
         }
 
         public int VerificaOperador(int ID)
         {
-            int validacao;
             OperadorDAO operador = new OperadorDAO();
-            validacao = operador.VerificaOperador(ID);
 
-            return validacao;
+            return operador.VerificaOperador(ID);
         }
 
         public int VerificaLogin(int ID, int senha)
         {
-            int validacao;
             OperadorDAO Operador = new OperadorDAO();
-            validacao = Operador.VerificaLogin(ID, senha);
 
-            return validacao;
+            return Operador.VerificaLogin(ID, senha);
         }
 
         // --------------------- CLIENTE -------------------------------
         public String GetNome(int id)
         {
             ClienteDAO clienteDAO = new ClienteDAO();
-            Cliente cliente = new Cliente();
 
-            var nome = clienteDAO.clienteGetNome(id);
-
-            return nome;
+            return clienteDAO.clienteGetNome(id);
         }
 
         public List<Cliente> All()
         {
             ClienteDAO clienteADO = new ClienteDAO();
 
-            var clientes = new List<Cliente>();
-
-            clientes = clienteADO.PegaTodosClientes();
-            /*
-            clientes.Add(new Cliente() { ID = 1, Nome = "Leonardo Fanck1", CPF = "041.669.710-00" });
-            clientes.Add(new Cliente() { ID = 2, Nome = "Leonardo Fanck2", CPF = "041.669.710-00" });
-            clientes.Add(new Cliente() { ID = 3, Nome = "Leonardo Fanck3", CPF = "041.669.710-00" });
-            */
-
-            return clientes;
+            return clienteADO.PegaTodosClientes();
         }
 
         // --------------------- CONFIGURAÇÕES GERAIS -------------------------------
         public ConfiguracoesGerais GetDadosConfiguracoesGerais()
         {
-            ConfiguracoesGerais retorno;
-
             ConfiguracoesGeraisDAO configuracoesGeraisDAO = new ConfiguracoesGeraisDAO();
-            retorno = configuracoesGeraisDAO.getDados();
 
-            return retorno;
+            return configuracoesGeraisDAO.getDados();
         }
 
         public int SalvarConfiguracoesGerais(ConfiguracoesGerais config)
         {
-            int retorno;
             ConfiguracoesGeraisDAO configuracoesGeraisDAO = new ConfiguracoesGeraisDAO();
 
-            retorno = configuracoesGeraisDAO.saveDados(config);
-
-            return retorno;
+            return configuracoesGeraisDAO.saveDados(config);
         }
 
         // --------------------- PRODUTO -------------------------------
         public Produto GetProduto(int id)
         {
-            Produto retorno;
-
             ProdutoDAO produtoDAO = new ProdutoDAO();
-            retorno = produtoDAO.GetProduto(id);
 
-            return retorno;
+            return produtoDAO.GetProduto(id);
         }
 
         public Produto GetProdutoInicial()
-        {
-            Produto retorno;
+        {  
             int IDProduto;
 
             ProdutoDAO produtoDAO = new ProdutoDAO();
             IDProduto = produtoDAO.getIDProdutoInicial();
-            retorno = produtoDAO.GetProduto(IDProduto);
 
-            return retorno;
+            return produtoDAO.GetProduto(IDProduto);
+        }
+
+        public int AvancarRegistroProduto(int id)
+        {
+            ProdutoDAO produtoDAO = new ProdutoDAO();
+
+            return produtoDAO.avancarRegistro(id);
+        }
+
+        public int VoltarRegistroProduto(int ID)
+        {
+            ProdutoDAO produtoDAO = new ProdutoDAO();
+
+            return produtoDAO.voltarRegistro(ID);
+        }
+
+        public int GetEstoqueProduto(int ID)
+        {
+            ProdutoDAO produtoDAO = new ProdutoDAO();
+
+            return produtoDAO.getEstoque(ID);
+        }
+
+        public List<Categoria> GetListNomeCategoria()
+        {
+            ProdutoDAO produtoDAO = new ProdutoDAO();
+
+            return produtoDAO.GetCategorias();
         }
     }
 }
