@@ -17,35 +17,21 @@ namespace WEBServiceWCF.Banco
 
         public SqlConnection abrirConexao()
         {
-            try
+            if (con.State == System.Data.ConnectionState.Closed)
             {
-                if (con.State == System.Data.ConnectionState.Closed)
-                {
-                    con.Open();
-                }
+                con.Open();
             }
-            catch (SqlException e)
-            {
-                throw;
-            }
-
+            
             return con;
         }
 
         public SqlConnection fecharConexao()
         {
-            try
+            if (con.State == System.Data.ConnectionState.Open)
             {
-                if (con.State == System.Data.ConnectionState.Open)
-                {
-                    con.Close();
-                }
+                con.Close();
             }
-            catch (SqlException e)
-            {
-                throw;
-            }
-
+            
             return con;
         }
 

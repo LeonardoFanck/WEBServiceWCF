@@ -7,9 +7,9 @@ namespace WEBServiceWCF.Exceptions
 {
     public class ProdutoNaoLocalizadoException : Exception
     {
-        public ProdutoNaoLocalizadoException()
+        public ProdutoNaoLocalizadoException() : base("Não foi possível Localizar o Produto")
         {
-            throw new Exception("Não foi possível Localizar o Produto");
+             
         }
     }
 }

@@ -58,6 +58,12 @@ namespace WEBServiceWCF
         int GetEstoqueProduto(int ID);
 
         [OperationContract]
+        int SalvarProduto(Produto produto);
+
+        [OperationContract]
+        int GetProximoRegistroProduto();
+
+        [OperationContract]
         List<Categoria> GetListNomeCategoria();
     }
 }

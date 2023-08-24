@@ -106,6 +106,20 @@ namespace WEBServiceWCF
             return produtoDAO.getEstoque(ID);
         }
 
+        public int SalvarProduto(Produto produto)
+        {
+            ProdutoDAO produtoDAO = new ProdutoDAO();
+
+            return produtoDAO.salvarProduto(produto);
+        }
+
+        public int GetProximoRegistroProduto()
+        {
+            ProdutoDAO produtoDAO = new ProdutoDAO();
+            
+            return produtoDAO.getProximoRegistro();
+        }
+
         public List<Categoria> GetListNomeCategoria()
         {
             ProdutoDAO produtoDAO = new ProdutoDAO();

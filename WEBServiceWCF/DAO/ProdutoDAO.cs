@@ -4,6 +4,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Web;
 using WEBServiceWCF.Banco;
 using WEBServiceWCF.Classes;
@@ -210,6 +211,90 @@ namespace WEBServiceWCF.DAO
             cmd.Parameters["IdProduto"].Value = ID;
 
             cmd.ExecuteNonQuery();
+
+            retornoDB = Convert.ToInt32(cmd.Parameters["RetornoOperacao"].Value);
+
+            con = conexao.fecharConexao();
+
+            return retornoDB;
+        }
+
+        public int getProximoRegistro()
+        {
+            SqlDataReader retornoDB;
+            int retorno;
+            string SQL;
+            SqlConnection con = conexao.abrirConexao();
+
+            SQL = "SELECT MAX(CodProduto)+1 AS ID FROM Produtos";
+            SqlCommand cmd = new SqlCommand(SQL, con);
+            cmd.CommandTimeout = conexao.timeOutSQL();
+
+            retornoDB = cmd.ExecuteReader();
+
+            if (retornoDB.HasRows == true && retornoDB.Read() == true)
+            {
+                retorno = Convert.ToInt32(retornoDB["ID"]);
+            }
+            else
+            {
+                retorno = 1;
+            }
+
+            con = conexao.fecharConexao();
+            retornoDB.Close();
+
+            return retorno;
+        }
+
+        public int salvarProduto(Produto produto)
+        {
+            int retornoDB;
+            string parametro;
+            SqlConnection con = conexao.abrirConexao();
+            SqlCommand cmd = new SqlCommand("cadastroProduto", con);
+            cmd.CommandTimeout = conexao.timeOutSQL();
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            cmd.Parameters.Add("RetornoOperacao", SqlDbType.Int, 1);
+            cmd.Parameters["RetornoOperacao"].Direction = ParameterDirection.InputOutput;
+            cmd.Parameters["RetornoOperacao"].Value = -1;
+
+            parametro = "ID";
+            cmd.Parameters.Add(parametro, SqlDbType.Int, 5);
+            cmd.Parameters[parametro].Direction = ParameterDirection.Input;
+            cmd.Parameters[parametro].Value = produto.getSetID;
+
+            parametro = "Nome";
+            cmd.Parameters.Add(parametro, SqlDbType.NVarChar, 50);
+            cmd.Parameters[parametro].Direction = ParameterDirection.Input;
+            cmd.Parameters[parametro].Value = produto.getSetNome;
+
+            parametro = "Categoria";
+            cmd.Parameters.Add(parametro, SqlDbType.Int, 5);
+            cmd.Parameters[parametro].Direction = ParameterDirection.Input;
+            cmd.Parameters[parametro].Value = produto.getSetCategoria;
+
+            parametro = "Valor";
+            cmd.Parameters.Add(parametro, SqlDbType.Decimal, 10);
+            cmd.Parameters[parametro].Direction = ParameterDirection.Input;
+            cmd.Parameters[parametro].Value = produto.getSetValor;
+            cmd.Parameters[parametro].Precision = 18;
+            cmd.Parameters[parametro].Scale = 2;
+
+            parametro = "Custo";
+            cmd.Parameters.Add(parametro, SqlDbType.Decimal, 10);
+            cmd.Parameters[parametro].Direction = ParameterDirection.Input;
+            cmd.Parameters[parametro].Value = produto.getSetCusto;
+            cmd.Parameters[parametro].Precision = 18;
+            cmd.Parameters[parametro].Scale = 2;
+
+            parametro = "Status";
+            cmd.Parameters.Add(parametro, SqlDbType.Bit, 10);
+            cmd.Parameters[parametro].Direction = ParameterDirection.Input;
+            cmd.Parameters[parametro].Value = produto.getSetStatus;
+
+           cmd.ExecuteNonQuery();
 
             retornoDB = Convert.ToInt32(cmd.Parameters["RetornoOperacao"].Value);
 
