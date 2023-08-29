@@ -8,7 +8,6 @@ using System.Runtime.InteropServices;
 using System.Web;
 using WEBServiceWCF.Banco;
 using WEBServiceWCF.Classes;
-using WEBServiceWCF.Exceptions;
 
 namespace WEBServiceWCF.DAO
 {
@@ -55,7 +54,7 @@ namespace WEBServiceWCF.DAO
                 {
                     // NÃO ENCONTROU REGISTRO
                     //produto = new Produto(-1, "NÃO ENCONTRADO", 0, 0, 0, false);
-                    throw new ProdutoNaoLocalizadoException();
+                    throw new Exception("Produto não localizado!");
                 }
 
                 retornoDB.Close();
@@ -181,9 +180,9 @@ namespace WEBServiceWCF.DAO
                 categorias.Add(
                     new Categoria()
                     {
-                        ID = Convert.ToInt32(retornoDB["IdCategoria"]),
-                        Nome = retornoDB["NomeCategoria"].ToString(),
-                        Status = Convert.ToBoolean(retornoDB["StatusCategoria"])
+                        getSetID = Convert.ToInt32(retornoDB["IdCategoria"]),
+                        getSetNome = retornoDB["NomeCategoria"].ToString(),
+                        getSetStatus = Convert.ToBoolean(retornoDB["StatusCategoria"])
                     }
                 );
             }

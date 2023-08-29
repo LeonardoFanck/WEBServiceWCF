@@ -7,7 +7,6 @@ using System.ServiceModel.Web;
 using System.Text;
 using WEBServiceWCF.Classes;
 using WEBServiceWCF.DAO;
-using WEBServiceWCF.Exceptions;
 
 namespace WEBServiceWCF
 {
@@ -125,6 +124,15 @@ namespace WEBServiceWCF
             ProdutoDAO produtoDAO = new ProdutoDAO();
 
             return produtoDAO.GetCategorias();
+        }
+
+
+        // --------------------- ESTADOS -------------------------------
+        public List<Estados> getListEstados()
+        {
+            EstadosDAO estadosDAO = new EstadosDAO();
+
+            return estadosDAO.getListEstados();
         }
     }
 }

@@ -69,13 +69,14 @@
     <Compile Include="Classes\Categoria.cs" />
     <Compile Include="Classes\Cliente.cs" />
     <Compile Include="Classes\ConfiguracoesGerais.cs" />
+    <Compile Include="Classes\Estados.cs" />
     <Compile Include="Classes\Operador.cs" />
     <Compile Include="Classes\Produto.cs" />
     <Compile Include="DAO\ClienteDAO.cs" />
     <Compile Include="DAO\ConfiguracoesGeraisDAO.cs" />
+    <Compile Include="DAO\EstadosDAO.cs" />
     <Compile Include="DAO\OperadorDAO.cs" />
     <Compile Include="DAO\ProdutoDAO.cs" />
-    <Compile Include="Exceptions\ProdutoNaoLocalizadoException.cs" />
     <Compile Include="Service1.svc.cs">
       <DependentUpon>Service1.svc</DependentUpon>
     </Compile>

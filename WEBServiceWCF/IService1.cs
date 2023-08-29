@@ -6,7 +6,6 @@ using System.ServiceModel;
 using System.ServiceModel.Web;
 using System.Text;
 using WEBServiceWCF.Classes;
-using WEBServiceWCF.Exceptions;
 
 namespace WEBServiceWCF
 {
@@ -65,5 +64,11 @@ namespace WEBServiceWCF
 
         [OperationContract]
         List<Categoria> GetListNomeCategoria();
+
+
+
+        // ----- ESTADOS -----
+        [OperationContract]
+        List<Estados> getListEstados();
     }
 }

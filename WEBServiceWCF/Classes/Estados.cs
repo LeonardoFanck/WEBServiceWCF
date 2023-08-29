@@ -5,11 +5,11 @@ using System.Web;
 
 namespace WEBServiceWCF.Classes
 {
-    public class Categoria
+    public class Estados
     {
         private int ID;
         private string Nome;
-        private bool Status;
+        private string UF;
 
         public int getSetID
         {
@@ -23,10 +23,10 @@ namespace WEBServiceWCF.Classes
             set { Nome = value; }
         }
 
-        public bool getSetStatus
+        public string getSetUF
         {
-            get { return Status; }
-            set { Status = value; }
+            get { return UF; }
+            set { UF = value; }
         }
     }
 }
