@@ -15,7 +15,7 @@ namespace WEBServiceWCF
     {
         // ---- OPERADOR ----
         [OperationContract]
-        string getNomeOperador(int ID);
+        string GetNomeOperador(int ID);
 
         [OperationContract]
         int VerificaOperador(int ID);
@@ -27,8 +27,28 @@ namespace WEBServiceWCF
 
         // ---- CLIENTE ----
         [OperationContract]
-        String GetNome(int id);
+        Cliente GetCliente(int ID);
+        //String GetNome(int id);
 
+        [OperationContract]
+        Cliente GetClienteInicial();
+
+        [OperationContract]
+        int AvancarRegistroCliente(int ID);
+
+        [OperationContract]
+        int VoltarRegistroCliente(int ID);
+
+        [OperationContract]
+        int SalvarCliente(Cliente cliente, TipoClientes tipoCliente);
+
+        [OperationContract]
+        int GetProximoRegistroCliente();
+
+
+        // ----- TIPO CLIENTES ------
+        [OperationContract]
+        TipoClientes GetTipoClientes(int ID);
 
 
         // ---- CONFIGURAÇÕES GERAIS -----
@@ -69,6 +89,6 @@ namespace WEBServiceWCF
 
         // ----- ESTADOS -----
         [OperationContract]
-        List<Estados> getListEstados();
+        List<Estados> GetListEstados();
     }
 }

@@ -23,7 +23,7 @@ namespace WEBServiceWCF.DAO
             SqlDataReader retornoDB;
             List<Estados> estados = new List<Estados>();
 
-            SQL = "SELECT * FROM eestado";
+            SQL = "SELECT * FROM Estados";
             cmd = new SqlCommand(SQL, con);
             cmd.CommandTimeout = conexao.timeOutSQL();
 

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
+using System.EnterpriseServices;
 using System.Linq;
 using System.Web;
 using WEBServiceWCF.Banco;
@@ -15,6 +17,8 @@ namespace WEBServiceWCF.DAO
         private SqlDataReader retornoDB;
         public string mensagem = "";
 
+
+        // POSSIVELMENTE VOU TIRAR
         public string clienteGetNome(int id)
         {
             string nome = "";
@@ -165,10 +169,11 @@ namespace WEBServiceWCF.DAO
             string SQL;
             SqlDataReader retornoDB;
 
-            SQL = "SELECT TOP 1 IdCliente FROM CLientes WHERE IdCliente > @ID ORDER BY IdCliente";
+            SQL = "SELECT TOP 1 IdCliente AS ID FROM CLientes WHERE IdCliente > @ID ORDER BY IdCliente";
 
             SqlConnection con = conexao.abrirConexao();
             SqlCommand cmd = new SqlCommand(SQL, con);
+            int retorno;
             cmd.CommandTimeout = conexao.timeOutSQL();
 
             cmd.Parameters.AddWithValue("@ID", ID);
@@ -177,9 +182,7 @@ namespace WEBServiceWCF.DAO
 
             if (retornoDB.HasRows == true && retornoDB.Read() == true)
             {
-                retornoDB.Close();
-                con = conexao.fecharConexao();
-                return Convert.ToInt32(retornoDB["CodProduto"]);
+                retorno = Convert.ToInt32(retornoDB["ID"]);
             }
             else
             {
@@ -187,13 +190,19 @@ namespace WEBServiceWCF.DAO
                 con = conexao.fecharConexao();
                 throw new Exception("Cliente Não Localizado");
             }
+
+            retornoDB.Close();
+            con = conexao.fecharConexao();
+
+            return retorno;
         }
         public int voltarRegistro(int ID)
         {
             string SQL;
+            int retorno;
             SqlDataReader retornoDB;
 
-            SQL = "SELECT TOP 1 IdCliente FROM CLientes WHERE IdCliente < @ID ORDER BY IdCliente DESC";
+            SQL = "SELECT TOP 1 IdCliente AS ID FROM CLientes WHERE IdCliente < @ID ORDER BY IdCliente DESC";
 
             SqlConnection con = conexao.abrirConexao();
             SqlCommand cmd = new SqlCommand(SQL, con);
@@ -205,9 +214,7 @@ namespace WEBServiceWCF.DAO
 
             if (retornoDB.HasRows == true && retornoDB.Read() == true)
             {
-                retornoDB.Close();
-                con = conexao.fecharConexao();
-                return Convert.ToInt32(retornoDB["CodProduto"]);
+                retorno = Convert.ToInt32(retornoDB["ID"]);
             }
             else
             {
@@ -215,12 +222,18 @@ namespace WEBServiceWCF.DAO
                 con = conexao.fecharConexao();
                 throw new Exception("Cliente Não Localizado");
             }
+
+            retornoDB.Close();
+            con = conexao.fecharConexao();
+
+            return retorno;
         }
 
         public int getProximoRegistro()
         {
             SqlDataReader retornoDB;
             string SQL;
+            int retorno;
             SQL = "SELECT MAX(IdCliente)+1 AS ID FROM CLientes";
 
             SqlConnection con = conexao.abrirConexao();
@@ -231,9 +244,7 @@ namespace WEBServiceWCF.DAO
 
             if (retornoDB.HasRows == true && retornoDB.Read() == true)
             {
-                con = conexao.fecharConexao();
-                retornoDB.Close();
-                return Convert.ToInt32(retornoDB["ID"]);
+                retorno = Convert.ToInt32(retornoDB["ID"]);
             }
             else
             {
@@ -241,6 +252,103 @@ namespace WEBServiceWCF.DAO
                 retornoDB.Close();
                 throw new Exception("Nenhum Produto Cadastrado");
             }
+
+            con = conexao.fecharConexao();
+            retornoDB.Close();
+
+            return retorno;
+        }
+
+        public int salvarCliente(Cliente cliente, TipoClientes tipoCliente)
+        {
+            int retornoDB;
+            string parametro;
+            SqlConnection con = conexao.abrirConexao();
+            SqlCommand cmd = new SqlCommand("adicionaCliente", con);
+            cmd.CommandTimeout = conexao.timeOutSQL();
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            cmd.Parameters.Add("RetornoOperacao", SqlDbType.Int, 1);
+            cmd.Parameters["RetornoOperacao"].Direction = ParameterDirection.InputOutput;
+            cmd.Parameters["RetornoOperacao"].Value = -1;
+
+            parametro = "CliNome";
+            cmd.Parameters.Add(parametro, SqlDbType.NVarChar, 50);
+            cmd.Parameters[parametro].Direction = ParameterDirection.Input;
+            cmd.Parameters[parametro].Value = cliente.getSetNome;
+
+            parametro = "CPF";
+            cmd.Parameters.Add(parametro, SqlDbType.NVarChar, 14);
+            cmd.Parameters[parametro].Direction = ParameterDirection.Input;
+            cmd.Parameters[parametro].Value = cliente.getSetCPF;
+
+            parametro = "EMAIL";
+            cmd.Parameters.Add(parametro, SqlDbType.NVarChar, 50);
+            cmd.Parameters[parametro].Direction = ParameterDirection.Input;
+            cmd.Parameters[parametro].Value = cliente.getSetEmail;
+
+            parametro = "DtNasc";
+            cmd.Parameters.Add(parametro, SqlDbType.NVarChar, 10);
+            cmd.Parameters[parametro].Direction = ParameterDirection.Input;
+            cmd.Parameters[parametro].Value = cliente.getSetDtNascimento;
+
+            parametro = "Estado";
+            cmd.Parameters.Add(parametro, SqlDbType.NVarChar, 50);
+            cmd.Parameters[parametro].Direction = ParameterDirection.Input;
+            cmd.Parameters[parametro].Value = cliente.getSetEstado;
+
+            parametro = "Cidade";
+            cmd.Parameters.Add(parametro, SqlDbType.NVarChar, 50);
+            cmd.Parameters[parametro].Direction = ParameterDirection.Input;
+            cmd.Parameters[parametro].Value = cliente.getSetCidade;
+
+            parametro = "Bairro";
+            cmd.Parameters.Add(parametro, SqlDbType.NVarChar, 30);
+            cmd.Parameters[parametro].Direction = ParameterDirection.Input;
+            cmd.Parameters[parametro].Value = cliente.getSetBairro;
+
+            parametro = "Endereco";
+            cmd.Parameters.Add(parametro, SqlDbType.NVarChar, 50);
+            cmd.Parameters[parametro].Direction = ParameterDirection.Input;
+            cmd.Parameters[parametro].Value = cliente.getSetEndereco;
+
+            parametro = "Numero";
+            cmd.Parameters.Add(parametro, SqlDbType.NVarChar, 4);
+            cmd.Parameters[parametro].Direction = ParameterDirection.Input;
+            cmd.Parameters[parametro].Value = cliente.getSetNumero;
+
+            parametro = "Status";
+            cmd.Parameters.Add(parametro, SqlDbType.Bit, 1);
+            cmd.Parameters[parametro].Direction = ParameterDirection.Input;
+            cmd.Parameters[parametro].Value = cliente.getSetStatus;
+
+            parametro = "Moradia";
+            cmd.Parameters.Add(parametro, SqlDbType.Int, 1);
+            cmd.Parameters[parametro].Direction = ParameterDirection.Input;
+            cmd.Parameters[parametro].Value = cliente.getSetMoradia;
+
+            parametro = "ID";
+            cmd.Parameters.Add(parametro, SqlDbType.Int, 20);
+            cmd.Parameters[parametro].Direction = ParameterDirection.Input;
+            cmd.Parameters[parametro].Value = cliente.getSetID;
+
+            parametro = "TipoCliente";
+            cmd.Parameters.Add(parametro, SqlDbType.Bit, 1);
+            cmd.Parameters[parametro].Direction = ParameterDirection.Input;
+            cmd.Parameters[parametro].Value = tipoCliente.getSetTipoCliente;
+
+            parametro = "TipoFornecedor";
+            cmd.Parameters.Add(parametro, SqlDbType.Bit, 1);
+            cmd.Parameters[parametro].Direction = ParameterDirection.Input;
+            cmd.Parameters[parametro].Value = tipoCliente.getSetTipoFornecedor;
+
+            cmd.ExecuteNonQuery();
+
+            retornoDB = Convert.ToInt32(cmd.Parameters["RetornoOperacao"].Value);
+
+            con = conexao.fecharConexao();
+
+            return retornoDB;
         }
     }
 }

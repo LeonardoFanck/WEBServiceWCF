@@ -15,7 +15,7 @@ namespace WEBServiceWCF
     public class Service1 : IService1
     {
         // --------------------- OPERADOR -------------------------------
-        public string getNomeOperador(int ID)
+        public string GetNomeOperador(int ID)
         {
             OperadorDAO operador = new OperadorDAO();
 
@@ -37,6 +37,8 @@ namespace WEBServiceWCF
         }
 
         // --------------------- CLIENTE -------------------------------
+
+        // POSSIVELMENTE TIRAR DEPOIS
         public String GetNome(int id)
         {
             ClienteDAO clienteDAO = new ClienteDAO();
@@ -49,6 +51,59 @@ namespace WEBServiceWCF
             ClienteDAO clienteADO = new ClienteDAO();
 
             return clienteADO.PegaTodosClientes();
+        }
+
+        public Cliente GetCliente(int id)
+        {
+            ClienteDAO clienteDAO = new ClienteDAO();
+
+            return clienteDAO.getCliente(id);
+        }
+
+        public Cliente GetClienteInicial()
+        {
+            int ID;
+
+            ClienteDAO clienteDAO = new ClienteDAO();
+            ID = clienteDAO.getUltimoRegistroID();
+
+            return clienteDAO.getCliente(ID);
+        }
+
+        public int AvancarRegistroCliente(int id)
+        {
+            ClienteDAO clienteDAO = new ClienteDAO();
+
+            return clienteDAO.avancarRegistro(id);
+        }
+
+        public int VoltarRegistroCliente(int ID)
+        {
+            ClienteDAO clienteDAO = new ClienteDAO();
+
+            return clienteDAO.voltarRegistro(ID);
+        }
+
+        public int SalvarCliente(Cliente cliente, TipoClientes tipoCliente)
+        {
+            ClienteDAO clienteDAO = new ClienteDAO();
+
+            return clienteDAO.salvarCliente(cliente, tipoCliente);
+        }
+
+        public int GetProximoRegistroCliente()
+        {
+            ClienteDAO clienteDAO = new ClienteDAO();
+
+            return clienteDAO.getProximoRegistro();
+        }
+
+        // --------------------- TIPO CLIENTE -------------------------------
+        public TipoClientes GetTipoClientes(int ID)
+        {
+            TipoClientesDAO tipoClientesDAO = new TipoClientesDAO();
+
+            return tipoClientesDAO.getTipoClientes(ID);
         }
 
         // --------------------- CONFIGURAÇÕES GERAIS -------------------------------
@@ -128,7 +183,7 @@ namespace WEBServiceWCF
 
 
         // --------------------- ESTADOS -------------------------------
-        public List<Estados> getListEstados()
+        public List<Estados> GetListEstados()
         {
             EstadosDAO estadosDAO = new EstadosDAO();
 

@@ -20,6 +20,8 @@ namespace WEBServiceWCF.Classes
         private bool Status;
         private int Moradia;
 
+        public Cliente() { }
+
         public Cliente(int iD, string nome, string cPF, string email, string dtNascimento, string estado, string cidade, string bairro, string endereco, string numero, bool status, int moradia)
         {
             ID = iD;
