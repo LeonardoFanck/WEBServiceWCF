@@ -264,7 +264,7 @@ namespace WEBServiceWCF.DAO
             int retornoDB;
             string parametro;
             SqlConnection con = conexao.abrirConexao();
-            SqlCommand cmd = new SqlCommand("adicionaCliente", con);
+            SqlCommand cmd = new SqlCommand("CadastroCliente", con);
             cmd.CommandTimeout = conexao.timeOutSQL();
             cmd.CommandType = CommandType.StoredProcedure;
 
@@ -278,7 +278,7 @@ namespace WEBServiceWCF.DAO
             cmd.Parameters[parametro].Value = cliente.getSetNome;
 
             parametro = "CPF";
-            cmd.Parameters.Add(parametro, SqlDbType.NVarChar, 14);
+            cmd.Parameters.Add(parametro, SqlDbType.NVarChar, 18);
             cmd.Parameters[parametro].Direction = ParameterDirection.Input;
             cmd.Parameters[parametro].Value = cliente.getSetCPF;
 
