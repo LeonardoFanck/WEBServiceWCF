@@ -189,5 +189,41 @@ namespace WEBServiceWCF
 
             return estadosDAO.getListEstados();
         }
+
+        // --------------------- FORMA PGTO -------------------------------
+        public FormaPGTO GetFormaPGTO(int ID)
+        {
+            FormaPGTODAO formaPGTODAO = new FormaPGTODAO();
+
+            return formaPGTODAO.GetFormaPGTO(ID);
+        }
+
+        public FormaPGTO GetRegistroInicialFormaPGTO()
+        {
+            FormaPGTODAO formaPGTODAO = new FormaPGTODAO();
+
+            return formaPGTODAO.getRegistroInicial();
+        }
+
+        public int AvancarRegistroFormaPGTO(int ID)
+        {
+            FormaPGTODAO formaPGTODAO = new FormaPGTODAO();
+
+            return formaPGTODAO.avancarRegistro(ID);
+        }
+
+        public int VoltarRegistroFormaPGTO(int ID)
+        {
+            FormaPGTODAO formaPGTODAO = new FormaPGTODAO();
+
+            return formaPGTODAO.voltarRegistro(ID);
+        }
+
+        public int SalvarFormaPGTO(FormaPGTO formaPGTO)
+        {
+            FormaPGTODAO formaPGTODAO = new FormaPGTODAO();
+
+            return formaPGTODAO.salvarRegistro(formaPGTO);
+        }
     }
 }

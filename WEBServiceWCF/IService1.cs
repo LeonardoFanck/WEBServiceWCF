@@ -90,5 +90,23 @@ namespace WEBServiceWCF
         // ----- ESTADOS -----
         [OperationContract]
         List<Estados> GetListEstados();
+
+
+
+        // ----- FORMA PGTO -----
+        [OperationContract]
+        FormaPGTO GetFormaPGTO(int ID);
+
+        [OperationContract]
+        FormaPGTO GetRegistroInicialFormaPGTO();
+
+        [OperationContract]
+        int AvancarRegistroFormaPGTO(int ID);
+
+        [OperationContract]
+        int VoltarRegistroFormaPGTO(int ID);
+
+        [OperationContract]
+        int SalvarFormaPGTO(FormaPGTO formaPGTO);
     }
 }
