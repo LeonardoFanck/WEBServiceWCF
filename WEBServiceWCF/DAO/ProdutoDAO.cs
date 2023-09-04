@@ -293,7 +293,7 @@ namespace WEBServiceWCF.DAO
             cmd.Parameters[parametro].Direction = ParameterDirection.Input;
             cmd.Parameters[parametro].Value = produto.getSetStatus;
 
-           cmd.ExecuteNonQuery();
+            cmd.ExecuteNonQuery();
 
             retornoDB = Convert.ToInt32(cmd.Parameters["RetornoOperacao"].Value);
 
