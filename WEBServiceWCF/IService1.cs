@@ -101,10 +101,16 @@ namespace WEBServiceWCF
         FormaPGTO GetRegistroInicialFormaPGTO();
 
         [OperationContract]
+        int GetProximoRegistroFormaPGTO();
+
+        [OperationContract]
         int AvancarRegistroFormaPGTO(int ID);
 
         [OperationContract]
         int VoltarRegistroFormaPGTO(int ID);
+
+        [OperationContract]
+        int ValidarNomeFormaPGTO(FormaPGTO formaPGTO);
 
         [OperationContract]
         int SalvarFormaPGTO(FormaPGTO formaPGTO);

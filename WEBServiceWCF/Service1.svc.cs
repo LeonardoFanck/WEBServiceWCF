@@ -205,6 +205,13 @@ namespace WEBServiceWCF
             return formaPGTODAO.GetFormaPGTO(formaPGTODAO.getRegistroInicial());
         }
 
+        public int GetProximoRegistroFormaPGTO()
+        {
+            FormaPGTODAO formaPGTODAO = new FormaPGTODAO();
+
+            return formaPGTODAO.getProximoRegistro();
+        }
+
         public int AvancarRegistroFormaPGTO(int ID)
         {
             FormaPGTODAO formaPGTODAO = new FormaPGTODAO();
@@ -217,6 +224,13 @@ namespace WEBServiceWCF
             FormaPGTODAO formaPGTODAO = new FormaPGTODAO();
 
             return formaPGTODAO.voltarRegistro(ID);
+        }
+        
+        public int ValidarNomeFormaPGTO(FormaPGTO formaPGTO)
+        {
+            FormaPGTODAO formaPGTODAO = new FormaPGTODAO();
+
+             return formaPGTODAO.validarNomeRegistroIgual(formaPGTO);
         }
 
         public int SalvarFormaPGTO(FormaPGTO formaPGTO)

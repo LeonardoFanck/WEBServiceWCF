@@ -79,6 +79,36 @@ namespace WEBServiceWCF.DAO
             }
         }
 
+        public int getProximoRegistro()
+        {
+            SqlConnection con = conexao.abrirConexao();
+            SqlCommand cmd;
+            string SQL;
+            SqlDataReader retornoDB;
+
+            SQL = "SELECT MAX(IdFormaPgt)+1 AS ID FROM FormaPgto";
+            cmd = new SqlCommand(SQL, con);
+            cmd.CommandTimeout = conexao.timeOutSQL();
+
+            retornoDB = cmd.ExecuteReader();
+
+            if (retornoDB.HasRows == true && retornoDB.Read() == true)
+            {
+                int retorno = Convert.ToInt32(retornoDB["ID"]);
+
+                con = conexao.fecharConexao();
+                retornoDB.Close();
+
+                return retorno;
+            }
+            else
+            {
+                con = conexao.fecharConexao();
+                retornoDB.Close();
+                throw new Exception("Nenhum registro Localizado");
+            }
+        }
+
         public int avancarRegistro(int ID)
         {
             SqlConnection con = conexao.abrirConexao();
@@ -147,6 +177,40 @@ namespace WEBServiceWCF.DAO
                 retornoDB.Close();
 
                 throw new Exception("Nenhum registro localizado anteriormente ao ID: " + ID);
+            }
+        }
+
+        public int validarNomeRegistroIgual(FormaPGTO formaPGTO)
+        {
+            SqlConnection con = conexao.abrirConexao();
+            SqlCommand cmd;
+            string SQL;
+            SqlDataReader retornoDB;
+
+            SQL = "SELECT IdFormaPgt AS ID " +
+                "FROM FormaPgto " +
+                $"WHERE NomeFormaPgt LIKE '{formaPGTO.getSetNome}' " +
+                $"AND IdFormaPgt <> {formaPGTO.getSetID}";
+
+            cmd = new SqlCommand(SQL, con);
+            cmd.CommandTimeout = conexao.timeOutSQL();
+            //cmd.Parameters.AddWithValue("@nome", nome);
+            retornoDB = cmd.ExecuteReader();
+
+            if (retornoDB.HasRows == true && retornoDB.Read() == true)
+            {
+                int IDretorno = Convert.ToInt32(retornoDB["ID"]);
+                con = conexao.fecharConexao();
+                retornoDB.Close();
+
+                return IDretorno;
+            }
+            else
+            {
+                con = conexao.fecharConexao();
+                retornoDB.Close();
+
+                return -1;
             }
         }
 
