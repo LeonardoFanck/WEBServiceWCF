@@ -49,14 +49,14 @@ namespace WEBServiceWCF.DAO
             }
         }
 
-        public FormaPGTO getRegistroInicial()
+        public int getRegistroInicial()
         {
             SqlConnection con = conexao.abrirConexao();
             SqlCommand cmd;
             string SQL;
             SqlDataReader retornoDB;
 
-            SQL = "SELECT MAX(IdFormaPgt) FROM FormaPgto";
+            SQL = "SELECT MAX(IdFormaPgt) AS ID FROM FormaPgto";
             cmd = new SqlCommand(SQL, con);
             cmd.CommandTimeout = conexao.timeOutSQL();
 
@@ -64,16 +64,12 @@ namespace WEBServiceWCF.DAO
 
             if (retornoDB.HasRows == true && retornoDB.Read() == true)
             {
-                FormaPGTO formaPGTO = new FormaPGTO(
-                    Convert.ToInt32(retornoDB["IdFormaPgt"]),
-                    retornoDB["NomeFormaPgt"].ToString(),
-                    Convert.ToBoolean(retornoDB["StatusFormaPgt"])
-                    );
+                int retorno = Convert.ToInt32(retornoDB["ID"]);
 
                 con = conexao.fecharConexao();
                 retornoDB.Close();
 
-                return formaPGTO;
+                return retorno;
             }
             else
             {
@@ -97,6 +93,8 @@ namespace WEBServiceWCF.DAO
 
             cmd = new SqlCommand(SQL, con);
             cmd.CommandTimeout = conexao.timeOutSQL();
+            cmd.Parameters.AddWithValue("@ID", ID);
+
             retornoDB = cmd.ExecuteReader();
 
             if (retornoDB.HasRows == true && retornoDB.Read() == true)
@@ -131,6 +129,7 @@ namespace WEBServiceWCF.DAO
 
             cmd = new SqlCommand(SQL, con);
             cmd.CommandTimeout = conexao.timeOutSQL();
+            cmd.Parameters.AddWithValue("@ID", ID);
             retornoDB = cmd.ExecuteReader();
 
             if (retornoDB.HasRows == true && retornoDB.Read() == true)

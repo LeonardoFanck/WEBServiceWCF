@@ -201,8 +201,8 @@ namespace WEBServiceWCF
         public FormaPGTO GetRegistroInicialFormaPGTO()
         {
             FormaPGTODAO formaPGTODAO = new FormaPGTODAO();
-
-            return formaPGTODAO.getRegistroInicial();
+            // PEGA O REGISTRO INCIAL E BUSCA O ULTIMO REGISTRO
+            return formaPGTODAO.GetFormaPGTO(formaPGTODAO.getRegistroInicial());
         }
 
         public int AvancarRegistroFormaPGTO(int ID)
