@@ -174,13 +174,6 @@ namespace WEBServiceWCF
             return produtoDAO.getProximoRegistro();
         }
 
-        public List<Categoria> GetListNomeCategoria()
-        {
-            ProdutoDAO produtoDAO = new ProdutoDAO();
-
-            return produtoDAO.GetCategorias();
-        }
-
 
         // --------------------- ESTADOS -------------------------------
         public List<Estados> GetListEstados()
@@ -238,6 +231,63 @@ namespace WEBServiceWCF
             FormaPGTODAO formaPGTODAO = new FormaPGTODAO();
 
             return formaPGTODAO.salvarRegistro(formaPGTO);
+        }
+
+        // --------------------- CATEGORIA -------------------------------
+        public Categoria GetCategoria(int ID)
+        {
+            CategoriaDAO categoriaDAO = new CategoriaDAO();
+
+            return categoriaDAO.GetCategoria(ID);
+        }
+
+        public Categoria GetRegistroInicialCategoria()
+        {
+            CategoriaDAO categoriaDAO = new CategoriaDAO();
+            // PEGA O REGISTRO INCIAL E BUSCA O ULTIMO REGISTRO
+            return categoriaDAO.GetCategoria(categoriaDAO.getRegistroInicial());
+        }
+
+        public int GetProximoRegistroCategoria()
+        {
+            CategoriaDAO categoriaDAO = new CategoriaDAO();
+
+            return categoriaDAO.getProximoRegistro();
+        }
+
+        public int AvancarRegistroCategoria(int ID)
+        {
+            CategoriaDAO categoriaDAO = new CategoriaDAO();
+
+            return categoriaDAO.avancarRegistro(ID);
+        }
+
+        public int VoltarRegistroCategoria(int ID)
+        {
+            CategoriaDAO categoriaDAO = new CategoriaDAO();
+
+            return categoriaDAO.voltarRegistro(ID);
+        }
+        
+        public int ValidarNomeCategoria(Categoria categoria)
+        {
+            CategoriaDAO categoriaDAO = new CategoriaDAO();
+
+             return categoriaDAO.validarNomeRegistroIgual(categoria);
+        }
+
+        public int SalvarCategoria(Categoria categoria)
+        {
+            CategoriaDAO categoriaDAO = new CategoriaDAO();
+
+            return categoriaDAO.salvarRegistro(categoria);
+        }
+
+        public List<Categoria> GetAllCategorias()
+        {
+            CategoriaDAO categoriaDAO = new CategoriaDAO();
+
+            return categoriaDAO.getAllCategorias();
         }
     }
 }

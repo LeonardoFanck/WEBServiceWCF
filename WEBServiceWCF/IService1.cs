@@ -82,9 +82,6 @@ namespace WEBServiceWCF
         [OperationContract]
         int GetProximoRegistroProduto();
 
-        [OperationContract]
-        List<Categoria> GetListNomeCategoria();
-
 
 
         // ----- ESTADOS -----
@@ -114,5 +111,32 @@ namespace WEBServiceWCF
 
         [OperationContract]
         int SalvarFormaPGTO(FormaPGTO formaPGTO);
+
+
+
+        // ----- CATEGORIA -----
+        [OperationContract]
+        Categoria GetCategoria(int ID);
+
+        [OperationContract]
+        Categoria GetRegistroInicialCategoria();
+
+        [OperationContract]
+        int GetProximoRegistroCategoria();
+
+        [OperationContract]
+        int AvancarRegistroCategoria(int ID);
+
+        [OperationContract]
+        int VoltarRegistroCategoria(int ID);
+
+        [OperationContract]
+        int ValidarNomeCategoria(Categoria categoria);
+
+        [OperationContract]
+        int SalvarCategoria(Categoria categoria);
+
+        [OperationContract]
+        List<Categoria> GetAllCategorias();
     }
 }

@@ -162,37 +162,6 @@ namespace WEBServiceWCF.DAO
             return ID;
         }
 
-        public List<Categoria> GetCategorias()
-        {
-            string SQL;
-            SqlConnection con = conexao.abrirConexao();
-            SqlCommand cmd;
-            SqlDataReader retornoDB;
-            List<Categoria> categorias = new List<Categoria>();
-
-            SQL = "SELECT * FROM Categoria";
-            cmd = new SqlCommand(SQL, con);
-            cmd.CommandTimeout = conexao.timeOutSQL();
-
-            retornoDB = cmd.ExecuteReader();
-
-            while (retornoDB.HasRows == true && (retornoDB.Read() == true)) {
-                categorias.Add(
-                    new Categoria()
-                    {
-                        getSetID = Convert.ToInt32(retornoDB["IdCategoria"]),
-                        getSetNome = retornoDB["NomeCategoria"].ToString(),
-                        getSetStatus = Convert.ToBoolean(retornoDB["StatusCategoria"])
-                    }
-                );
-            }
-
-            retornoDB.Close();
-            con = conexao.fecharConexao();
-
-            return categorias;
-        }
-
         public int getEstoque(int ID)
         {
             int retornoDB;

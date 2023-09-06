@@ -74,6 +74,7 @@
     <Compile Include="Classes\Operador.cs" />
     <Compile Include="Classes\Produto.cs" />
     <Compile Include="Classes\TipoClientes.cs" />
+    <Compile Include="DAO\CategoriaDAO.cs" />
     <Compile Include="DAO\ClienteDAO.cs" />
     <Compile Include="DAO\ConfiguracoesGeraisDAO.cs" />
     <Compile Include="DAO\EstadosDAO.cs" />

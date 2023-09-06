@@ -11,6 +11,15 @@ namespace WEBServiceWCF.Classes
         private string Nome;
         private bool Status;
 
+        public Categoria() { }
+
+        public Categoria(int iD, string nome, bool status)
+        {
+            ID = iD;
+            Nome = nome;
+            Status = status;
+        }
+
         public int getSetID
         {
             get { return ID; }
