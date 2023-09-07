@@ -12,16 +12,32 @@ namespace WEBServiceWCF.Classes
         private string Senha;
         private bool Admin;
         private bool Status;
+        private bool CadastroOperador;
+        private bool CadastroCategoria;
+        private bool CadastroCliente;
+        private bool CadastroProduto;
+        private bool CadastroFormaPGTO;
+        private bool TabelaUsuario;
+        private bool Pedidos;
+        private bool Entrada;
 
         public Operador() { }
 
-        public Operador(int iD, string nome, string senha, bool admin, bool status)
+        public Operador(int iD, string nome, string senha, bool admin, bool status, bool cadastroOperador, bool cadastroCategoria, bool cadastroCliente, bool cadastroProduto, bool cadastroFormaPGTO, bool tabelaUsuario, bool pedidos, bool entrada)
         {
             ID = iD;
             Nome = nome;
             Senha = senha;
             Admin = admin;
             Status = status;
+            CadastroOperador = cadastroOperador;
+            CadastroCategoria = cadastroCategoria;
+            CadastroCliente = cadastroCliente;
+            CadastroProduto = cadastroProduto;
+            CadastroFormaPGTO = cadastroFormaPGTO;
+            TabelaUsuario = tabelaUsuario;
+            Pedidos = pedidos;
+            Entrada = entrada;
         }
 
         public int getSetID
@@ -52,6 +68,49 @@ namespace WEBServiceWCF.Classes
         {
             get { return Status; }
             set { Status = value; }
+        }
+
+        public bool getSetCadastroOperador
+        {
+            get { return CadastroOperador; }
+            set {  CadastroOperador = value;}
+        }
+        public bool getSetCadastroCategoria
+        {
+            get { return CadastroCategoria; }
+            set { CadastroCategoria = value; }
+        }
+        public bool getSetCadastroCliente
+        {
+            get { return CadastroCliente; }
+            set { CadastroCliente = value; }
+        }
+        public bool getSetCadastroProduto
+        {
+            get { return CadastroProduto; } 
+            set {  CadastroProduto = value; }
+
+        }
+        public bool getSetCadastroFormaPGTO
+        {
+            get { return CadastroFormaPGTO; }
+            set { CadastroFormaPGTO = value; }
+        }
+
+        public bool getSetTabelaUsuario
+        {
+            get { return TabelaUsuario; }
+            set {  TabelaUsuario = value; }
+        }
+        public bool getSetPedidos
+        {
+            get { return Pedidos; }
+            set { Pedidos = value; }
+        }
+        public bool getSetEntrada
+        {
+            get { return Entrada; } 
+            set {  Entrada = value; }
         }
     }
 }

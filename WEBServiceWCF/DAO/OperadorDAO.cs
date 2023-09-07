@@ -5,6 +5,7 @@ using System.Data;
 using System.Linq;
 using System.Web;
 using WEBServiceWCF.Banco;
+using WEBServiceWCF.Classes;
 
 namespace WEBServiceWCF.DAO
 {
@@ -78,38 +79,58 @@ namespace WEBServiceWCF.DAO
             }
         }
 
-        public string getNomeOperador(int ID)
+        public Operador getOperador(int ID)
         {
             SqlDataReader retornoDB;
 
-            try
-            {
-                string retorno = "";
-                string SQL = "SELECT nomeOperador " +
-                             "FROM Operador " +
-                             "WHERE idOperador = @ID";
+            
+            string SQL = "SELECT * " +
+                        "FROM Operador " +
+                        "WHERE idOperador = @ID";
 
-                SqlConnection con = conexao.abrirConexao();
-                SqlCommand cmd = new SqlCommand(SQL, con);
+            SqlConnection con = conexao.abrirConexao();
+            SqlCommand cmd = new SqlCommand(SQL, con);
+            cmd.CommandTimeout = conexao.timeOutSQL();
                 
-                cmd.Parameters.AddWithValue("@ID", ID);
+            cmd.Parameters.AddWithValue("@ID", ID);
 
-                retornoDB = cmd.ExecuteReader();
+            retornoDB = cmd.ExecuteReader();
 
-                if (retornoDB.HasRows == true && retornoDB.Read() == true)
-                {
-                    retorno = retornoDB["nomeOperador"].ToString();
-                }
+            if (retornoDB.HasRows == true && retornoDB.Read() == true)
+            {
+                Operador operador = new Operador(
+                    Convert.ToInt32(retornoDB["IdOperador"]),
+                    retornoDB["nomeOperador"].ToString(),
+                    retornoDB["senhaOperador"].ToString(),
+                    Convert.ToBoolean(retornoDB["adminOperador"]),
+                    Convert.ToBoolean(retornoDB["statusOperador"]),
+                    Convert.ToBoolean(retornoDB["CadastroOperador"]),
+                    Convert.ToBoolean(retornoDB["CadastroCategoria"]),
+                    Convert.ToBoolean(retornoDB["CadastroCliente"]),
+                    Convert.ToBoolean(retornoDB["CadastroProduto"]),
+                    Convert.ToBoolean(retornoDB["CadastroFormaPGTO"]),
+                    Convert.ToBoolean(retornoDB["TabelaUsuario"]),
+                    Convert.ToBoolean(retornoDB["Pedidos"]),
+                    Convert.ToBoolean(retornoDB["Entrada"])
+                    );
 
                 con = conexao.fecharConexao();
+                retornoDB.Close();
 
-                return retorno;
+                return operador;
             }
-            catch (Exception)
+            else
             {
-                return "Erro ao tentar pegar o nome do Operador!";
-                throw;
+                con = conexao.fecharConexao();
+                retornoDB.Close();
+
+                throw new Exception("Nenhum Operador Encontrado!");
             }
+
+            
+
+            
+           
         }
     }
 }
