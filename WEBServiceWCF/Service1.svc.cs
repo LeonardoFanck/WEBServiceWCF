@@ -15,11 +15,11 @@ namespace WEBServiceWCF
     public class Service1 : IService1
     {
         // --------------------- OPERADOR -------------------------------
-        public string GetNomeOperador(int ID)
+        public Operador GetOperador(int ID)
         {
             OperadorDAO operador = new OperadorDAO();
 
-            return operador.getNomeOperador(ID);
+            return operador.getOperador(ID);
         }
 
         public int VerificaOperador(int ID)
@@ -34,6 +34,41 @@ namespace WEBServiceWCF
             OperadorDAO Operador = new OperadorDAO();
 
             return Operador.VerificaLogin(ID, senha);
+        }
+
+        public Operador GetRegistroInicialOperador()
+        {
+            OperadorDAO operadorDAO = new OperadorDAO();
+            // PEGA O REGISTRO INCIAL E BUSCA O ULTIMO REGISTRO
+            return operadorDAO.getOperador(operadorDAO.getRegistroInicial());
+        }
+
+        public int GetProximoRegistroOperador()
+        {
+            OperadorDAO operadorDAO = new OperadorDAO();
+
+            return operadorDAO.getProximoRegistro();
+        }
+
+        public int AvancarRegistroOperador(int ID)
+        {
+            OperadorDAO operadorDAO = new OperadorDAO();
+
+            return operadorDAO.avancarRegistro(ID);
+        }
+
+        public int VoltarRegistroOperador(int ID)
+        {
+            OperadorDAO operadorDAO = new OperadorDAO();
+
+            return operadorDAO.voltarRegistro(ID);
+        }
+
+        public int SalvarOperador(Operador operador)
+        {
+            OperadorDAO operadorDAO = new OperadorDAO();
+
+            return operadorDAO.salvarRegistro(operador);
         }
 
         // --------------------- CLIENTE -------------------------------

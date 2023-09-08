@@ -6,6 +6,7 @@ using System.ServiceModel;
 using System.ServiceModel.Web;
 using System.Text;
 using WEBServiceWCF.Classes;
+using WEBServiceWCF.DAO;
 
 namespace WEBServiceWCF
 {
@@ -15,7 +16,7 @@ namespace WEBServiceWCF
     {
         // ---- OPERADOR ----
         [OperationContract]
-        string GetNomeOperador(int ID);
+        Operador GetOperador(int ID);
 
         [OperationContract]
         int VerificaOperador(int ID);
@@ -23,7 +24,20 @@ namespace WEBServiceWCF
         [OperationContract]
         int VerificaLogin(int ID, int senha);
 
+        [OperationContract]
+        Operador GetRegistroInicialOperador();
 
+        [OperationContract]
+        int GetProximoRegistroOperador();
+
+        [OperationContract]
+        int AvancarRegistroOperador(int ID);
+
+        [OperationContract]
+        int VoltarRegistroOperador(int ID);
+
+        [OperationContract]
+        int SalvarOperador(Operador operador);
 
         // ---- CLIENTE ----
         [OperationContract]
