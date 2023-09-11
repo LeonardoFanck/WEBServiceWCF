@@ -324,5 +324,57 @@ namespace WEBServiceWCF
 
             return categoriaDAO.getAllCategorias();
         }
+
+        // --------------------- PEDIDO -------------------------------
+
+        public Pedido GetPedido(int ID) 
+        {
+            PedidosDAO pedidosDAO = new PedidosDAO();
+            
+            return pedidosDAO.getPedido(ID);
+        }
+
+        public Pedido GetRegistroInicialPedido()
+        {
+            PedidosDAO pedidosDAO = new PedidosDAO();
+
+            return pedidosDAO.getPedido(pedidosDAO.getRegistroInicial());
+        }
+
+        public int GetProximoRegistroPedido()
+        {
+            PedidosDAO pedidosDAO = new PedidosDAO();
+
+            return pedidosDAO.getProximoRegistro();
+        }
+        public int AvancarRegistroPedido(int ID)
+        {
+            PedidosDAO pedidosDAO = new PedidosDAO();
+
+            return pedidosDAO.avancarRegistro(ID);
+        }
+
+        public int VoltarRegistroPedido(int ID)
+        {
+            PedidosDAO pedidosDAO = new PedidosDAO();
+
+            return pedidosDAO.voltarRegistro(ID);
+        }
+
+        /*
+        public int SalvarPedido(Pedido pedido)
+        {
+            PedidosDAO pedidosDAO = new PedidosDAO();
+
+            return pedidosDAO.salvarRegistro(pedido);
+        }
+        */
+
+        public List<PedidoItens> GetPedidoItens(int ID)
+        {
+            PedidosDAO pedidosDAO = new PedidosDAO();
+
+            return pedidosDAO.getPedidoItens(ID);
+        }
     }
 }

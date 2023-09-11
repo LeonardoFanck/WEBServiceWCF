@@ -72,6 +72,8 @@
     <Compile Include="Classes\Estados.cs" />
     <Compile Include="Classes\FormaPGTO.cs" />
     <Compile Include="Classes\Operador.cs" />
+    <Compile Include="Classes\Pedido.cs" />
+    <Compile Include="Classes\PedidoItens.cs" />
     <Compile Include="Classes\Produto.cs" />
     <Compile Include="Classes\TipoClientes.cs" />
     <Compile Include="DAO\CategoriaDAO.cs" />
@@ -80,6 +82,8 @@
     <Compile Include="DAO\EstadosDAO.cs" />
     <Compile Include="DAO\FormaPGTODAO.cs" />
     <Compile Include="DAO\OperadorDAO.cs" />
+    <Compile Include="DAO\PedidoItensDAO.cs" />
+    <Compile Include="DAO\PedidosDAO.cs" />
     <Compile Include="DAO\ProdutoDAO.cs" />
     <Compile Include="DAO\TipoClientesDAO.cs" />
     <Compile Include="Service1.svc.cs">

@@ -152,5 +152,23 @@ namespace WEBServiceWCF
 
         [OperationContract]
         List<Categoria> GetAllCategorias();
+
+
+
+        // ----- PEDIDOS -----
+        [OperationContract]
+        Pedido GetPedido(int ID);
+
+        [OperationContract]
+        Pedido GetRegistroInicialPedido();
+
+        [OperationContract]
+        int GetProximoRegistroPedido();
+
+        [OperationContract]
+        int AvancarRegistroPedido(int ID);
+
+        [OperationContract]
+        int VoltarRegistroPedido(int ID);
     }
 }
