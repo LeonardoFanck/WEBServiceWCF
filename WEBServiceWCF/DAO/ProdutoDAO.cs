@@ -18,54 +18,46 @@ namespace WEBServiceWCF.DAO
 
         public Produto GetProduto(int IDPesquisa)
         {
-            try
+            string SQL;
+            int ID;
+            string Nome;
+            int Categoria;
+            double Valor;
+            double Custo;
+            bool Status;
+            Produto produto;
+            SqlDataReader retornoDB;
+
+            SQL = "SELECT * FROM Produtos WHERE CodProduto = @ID";
+
+            SqlConnection con = conexao.abrirConexao();
+            SqlCommand cmd = new SqlCommand(SQL, con);
+
+            cmd.Parameters.AddWithValue("@ID", IDPesquisa);
+
+            retornoDB = cmd.ExecuteReader();
+
+            if (retornoDB.HasRows == true && retornoDB.Read() == true)
             {
-                string SQL;
-                int ID;
-                string Nome;
-                int Categoria;
-                double Valor;
-                double Custo;
-                bool Status;
-                Produto produto;
-                SqlDataReader retornoDB;
+                ID = Convert.ToInt32(retornoDB["CodProduto"]);
+                Nome = retornoDB["NomeProduto"].ToString();
+                Categoria = Convert.ToInt32(retornoDB["CategoriaProduto"]);
+                Valor = Convert.ToDouble(retornoDB["ValorProduto"]);
+                Custo = Convert.ToDouble(retornoDB["CustoProduto"]);
+                Status = Convert.ToBoolean(retornoDB["StatusProduto"]);
 
-                SQL = "SELECT * FROM Produtos WHERE CodProduto = @ID";
-
-                SqlConnection con = conexao.abrirConexao();
-                SqlCommand cmd = new SqlCommand(SQL, con);
-
-                cmd.Parameters.AddWithValue("@ID", IDPesquisa);
-
-                retornoDB = cmd.ExecuteReader();
-
-                if (retornoDB.HasRows == true && retornoDB.Read() == true)
-                {
-                    ID = Convert.ToInt32(retornoDB["CodProduto"]);
-                    Nome = retornoDB["NomeProduto"].ToString();
-                    Categoria = Convert.ToInt32(retornoDB["CategoriaProduto"]);
-                    Valor = Convert.ToDouble(retornoDB["ValorProduto"]);
-                    Custo = Convert.ToDouble(retornoDB["CustoProduto"]);
-                    Status = Convert.ToBoolean(retornoDB["StatusProduto"]);
-
-                    produto = new Produto(ID, Nome, Categoria, Valor, Custo, Status);
-                }
-                else
-                {
-                    // NÃO ENCONTROU REGISTRO
-                    //produto = new Produto(-1, "NÃO ENCONTRADO", 0, 0, 0, false);
-                    throw new Exception("Produto não localizado!");
-                }
+                produto = new Produto(ID, Nome, Categoria, Valor, Custo, Status);
 
                 retornoDB.Close();
                 con = conexao.fecharConexao();
 
                 return produto;
             }
-            catch (Exception)
+            else
             {
-
-                throw;
+                retornoDB.Close();
+                con = conexao.fecharConexao();
+                throw new Exception("Produto não localizado!");
             }
         }
 

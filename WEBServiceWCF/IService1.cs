@@ -160,6 +160,9 @@ namespace WEBServiceWCF
         Pedido GetPedido(int ID);
 
         [OperationContract]
+        List<PedidoItens> GetPedidoItens(int ID);
+
+        [OperationContract]
         Pedido GetRegistroInicialPedido();
 
         [OperationContract]

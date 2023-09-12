@@ -14,10 +14,11 @@ namespace WEBServiceWCF.Classes
         private int Quantidade;
         private double Desconto;
         private double ValorTotal;
+        private string NomeProduto;
 
         public PedidoItens() { }
 
-        public PedidoItens(int iD, int iDPedido, int produto, double valor, int quantidade, double desconto, double valorTotal)
+        public PedidoItens(int iD, int iDPedido, int produto, double valor, int quantidade, double desconto, double valorTotal, string nomeProduto)
         {
             ID = iD;
             IDPedido = iDPedido;
@@ -26,6 +27,7 @@ namespace WEBServiceWCF.Classes
             Quantidade = quantidade;
             Desconto = desconto;
             ValorTotal = valorTotal;
+            NomeProduto = nomeProduto;
         }
 
         public int getSetItemID
@@ -68,6 +70,12 @@ namespace WEBServiceWCF.Classes
         {
             get { return ValorTotal; }
             set { ValorTotal = value; }
+        }
+
+        public string getSetItemNomeProduto
+        {
+            get { return NomeProduto; }
+            set { NomeProduto = value; }
         }
     }
 }

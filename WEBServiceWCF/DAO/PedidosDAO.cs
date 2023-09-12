@@ -60,18 +60,20 @@ namespace WEBServiceWCF.DAO
             SqlConnection con = conexao.abrirConexao();
             SqlCommand cmd;
 
-            SQL = "SELECT * FROM ItensPedido WHERE CodPedido = @ID";
+            SQL = "SELECT Itens.*, Produtos.NomeProduto " +
+                "FROM ItensPedido AS Itens " +
+                "INNER JOIN Produtos ON Itens.CodProduto = Produtos.CodProduto " +
+                "WHERE Itens.CodPedido = @ID";
             cmd = new SqlCommand(SQL, con);
             cmd.CommandTimeout = conexao.timeOutSQL();
             cmd.Parameters.AddWithValue("@ID", ID);
 
             retornoDB = cmd.ExecuteReader();
 
-            if (retornoDB.HasRows == true && retornoDB.Read() == true)
-            {
+            
                 var Itens = new List<PedidoItens>();
 
-                while (retornoDB.HasRows)
+                while (retornoDB.HasRows == true && retornoDB.Read() == true)
                 {
                     Itens.Add(new PedidoItens(
                     Convert.ToInt32(retornoDB["CodItensPedido"]),
@@ -80,7 +82,8 @@ namespace WEBServiceWCF.DAO
                     Convert.ToDouble(retornoDB["ValorProduto"]),
                     Convert.ToInt32(retornoDB["QuantidadeProduto"]),
                     Convert.ToDouble(retornoDB["DescontoProduto"]),
-                    Convert.ToDouble(retornoDB["ValorTotalProduto"])
+                    Convert.ToDouble(retornoDB["ValorTotalProduto"]),
+                    retornoDB["NomeProduto"].ToString()
                     ));
                 }
 
@@ -88,14 +91,7 @@ namespace WEBServiceWCF.DAO
                 retornoDB.Close();
 
                 return Itens;
-            }
-            else
-            {
-                con = conexao.fecharConexao();
-                retornoDB.Close();
-
-                throw new Exception("Registro N° " + ID + " não localizado!");
-            }
+            
         }
 
         public int getRegistroInicial()
