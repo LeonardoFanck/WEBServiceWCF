@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
+using System.Drawing;
 using System.Linq;
 using System.ServiceModel.Security.Tokens;
 using System.Web;
@@ -222,6 +224,104 @@ namespace WEBServiceWCF.DAO
                 retornoDB.Close();
 
                 throw new Exception("Nenhum registro localizado anteriormente ao ID: " + ID);
+            }
+        }
+
+        public void salvarItensPedido(PedidoItens itens)
+        {
+            string SQL;
+            SqlDataReader retornoDB;
+            SqlConnection con = conexao.abrirConexao();
+            SqlCommand cmd;
+
+            SQL = "INSERT INTO ItensPedido (CodPedido, CodProduto, ValorProduto, QuantidadeProduto, DescontoProduto, ValorTotalProduto) " +
+                "VALUES (@Pedido, @Produto, @Valor, @Quantidade, @Desconto, @ValorTotal)";
+
+            cmd = new SqlCommand(SQL, con);
+
+            cmd.CommandTimeout = conexao.timeOutSQL();
+            cmd.Parameters.AddWithValue("@Pedido", itens.getSetPedidoID);
+            cmd.Parameters.AddWithValue("@Produto", itens.getSetProduto);
+            cmd.Parameters.AddWithValue("@Valor", itens.getSetItemValor);
+            cmd.Parameters.AddWithValue("@Quantidade", itens.getSetQuantidade);
+            cmd.Parameters.AddWithValue("@Desconto", itens.getSetItemDesconto);
+            cmd.Parameters.AddWithValue("@ValorTotal", itens.getSetItemValorTotal);
+
+            retornoDB = cmd.ExecuteReader();
+
+            if (retornoDB.HasRows == true && retornoDB.Read() == true)
+            { 
+                con = conexao.fecharConexao();
+                retornoDB.Close();
+            }
+            else
+            {
+                con = conexao.fecharConexao();
+                retornoDB.Close();
+
+                throw new Exception("Ocorreu um erro ao tentar inserir o Item!");
+            }
+        }
+
+        public void excluirItemPedido(int ID)
+        {
+            string SQL;
+            SqlDataReader retornoDB;
+            SqlConnection con = conexao.abrirConexao();
+            SqlCommand cmd;
+
+            SQL = "DELETE FROM ItensPedido " +
+                "WHERE CodItensPedido = @ID";
+
+            cmd = new SqlCommand(SQL, con);
+
+            cmd.CommandTimeout = conexao.timeOutSQL();
+            cmd.Parameters.AddWithValue("@ID", ID);
+
+            retornoDB = cmd.ExecuteReader();
+
+            if (retornoDB.HasRows == true && retornoDB.Read() == true)
+            {
+                con = conexao.fecharConexao();
+                retornoDB.Close();
+            }
+            else
+            {
+                con = conexao.fecharConexao();
+                retornoDB.Close();
+
+                throw new Exception("Ocorreu um erro ao tentar excluir o Item!");
+            }
+        }
+
+        public void excluirItensPedido(int ID)
+        {
+            string SQL;
+            SqlDataReader retornoDB;
+            SqlConnection con = conexao.abrirConexao();
+            SqlCommand cmd;
+
+            SQL = "DELETE FROM ItensPedido " +
+                "WHERE CodPedido = @ID";
+
+            cmd = new SqlCommand(SQL, con);
+
+            cmd.CommandTimeout = conexao.timeOutSQL();
+            cmd.Parameters.AddWithValue("@ID", ID);
+
+            retornoDB = cmd.ExecuteReader();
+
+            if (retornoDB.HasRows == true && retornoDB.Read() == true)
+            {
+                con = conexao.fecharConexao();
+                retornoDB.Close();
+            }
+            else
+            {
+                con = conexao.fecharConexao();
+                retornoDB.Close();
+
+                throw new Exception("Ocorreu um erro ao tentar excluir o Item!");
             }
         }
     }

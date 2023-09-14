@@ -173,5 +173,14 @@ namespace WEBServiceWCF
 
         [OperationContract]
         int VoltarRegistroPedido(int ID);
+
+        [OperationContract]
+        void salvarItensPedido(PedidoItens item);
+
+        [OperationContract]
+        void excluirItemPedido(int ID);
+
+        [OperationContract]
+        void excluirItensPedido(int ID);
     }
 }

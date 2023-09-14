@@ -82,7 +82,6 @@
     <Compile Include="DAO\EstadosDAO.cs" />
     <Compile Include="DAO\FormaPGTODAO.cs" />
     <Compile Include="DAO\OperadorDAO.cs" />
-    <Compile Include="DAO\PedidoItensDAO.cs" />
     <Compile Include="DAO\PedidosDAO.cs" />
     <Compile Include="DAO\ProdutoDAO.cs" />
     <Compile Include="DAO\TipoClientesDAO.cs" />

@@ -376,5 +376,26 @@ namespace WEBServiceWCF
 
             return pedidosDAO.getPedidoItens(ID);
         }
+
+        public void salvarItensPedido(PedidoItens item)
+        {
+            PedidosDAO pedidosDAO = new PedidosDAO();
+
+            pedidosDAO.salvarItensPedido(item);
+        }
+
+        public void excluirItemPedido(int ID)
+        {
+            PedidosDAO pedidosDAO = new PedidosDAO();
+
+            pedidosDAO.excluirItemPedido(ID);
+        }
+
+        public void excluirItensPedido(int ID)
+        {
+            PedidosDAO pedidosDAO = new PedidosDAO();
+
+            pedidosDAO.excluirItensPedido(ID);
+        }
     }
 }
