@@ -324,5 +324,112 @@ namespace WEBServiceWCF.DAO
                 throw new Exception("Ocorreu um erro ao tentar excluir o Item!");
             }
         }
+
+        public double VerificarValorPedido(int ID)
+        {
+            string SQL;
+            SqlDataReader retornoDB;
+            double valor;
+            SqlConnection con = conexao.abrirConexao();
+            SqlCommand cmd;
+
+            SQL = "SELECT SUM(ValorTotalProduto) AS Valor FROM ItensPedido " +
+                "WHERE CodPedido = @ID";
+
+            cmd = new SqlCommand(SQL, con);
+            cmd.CommandTimeout = conexao.timeOutSQL();
+            cmd.Parameters.AddWithValue("@ID", ID);
+
+            retornoDB = cmd.ExecuteReader();
+
+            if (retornoDB.HasRows == true && retornoDB.Read() == true)
+            {
+                valor = Convert.ToDouble(retornoDB["Valor"]);
+
+                con = conexao.fecharConexao();
+                retornoDB.Close();
+
+                return valor;
+            }
+            else
+            {
+                con = conexao.fecharConexao();
+                retornoDB.Close();
+
+                throw new Exception("Ocorreu um erro ao tentar buscar o valor do Pedido!");
+            }
+        }
+
+        public int finalizarPedido(Pedido pedido)
+        {
+            // SALVAR -> SP => FinalizaPedido
+            string parametro;
+            int retornoDB;
+            SqlConnection con = conexao.abrirConexao();
+            SqlCommand cmd = new SqlCommand("FinalizaPedido", con);
+            cmd.CommandTimeout = conexao.timeOutSQL();
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            parametro = "RetornoOperacao";
+            cmd.Parameters.Add(parametro, SqlDbType.Int, 1);
+            cmd.Parameters[parametro].Direction = ParameterDirection.InputOutput;
+            cmd.Parameters[parametro].Value = -1;
+
+            parametro = "ID";
+            cmd.Parameters.Add(parametro, SqlDbType.Int, 5);
+            cmd.Parameters[parametro].Direction = ParameterDirection.Input;
+            cmd.Parameters[parametro].Value = pedido.getSetID;
+
+            parametro = "Cliente";
+            cmd.Parameters.Add(parametro, SqlDbType.Int, 5);
+            cmd.Parameters[parametro].Direction = ParameterDirection.Input;
+            cmd.Parameters[parametro].Value = pedido.getSetCliente;
+
+            parametro = "FormaPGTO";
+            cmd.Parameters.Add(parametro, SqlDbType.Int, 5);
+            cmd.Parameters[parametro].Direction = ParameterDirection.Input;
+            cmd.Parameters[parametro].Value = pedido.getSetFormaPGTO;
+
+            parametro = "Valor";
+            cmd.Parameters.Add(parametro, SqlDbType.Decimal, 5);
+            cmd.Parameters[parametro].Direction = ParameterDirection.Input;
+            cmd.Parameters[parametro].Precision = 18;
+            cmd.Parameters[parametro].Scale = 2;
+            cmd.Parameters[parametro].Value = pedido.getSetValor;
+
+            parametro = "Desconto";
+            cmd.Parameters.Add(parametro, SqlDbType.Decimal, 5);
+            cmd.Parameters[parametro].Direction = ParameterDirection.Input;
+            cmd.Parameters[parametro].Precision = 18;
+            cmd.Parameters[parametro].Scale = 2;
+            cmd.Parameters[parametro].Value = pedido.getSetDesconto;
+
+            parametro = "ValorTotal";
+            cmd.Parameters.Add(parametro, SqlDbType.Decimal, 5);
+            cmd.Parameters[parametro].Direction = ParameterDirection.Input;
+            cmd.Parameters[parametro].Precision = 18;
+            cmd.Parameters[parametro].Scale = 2;
+            cmd.Parameters[parametro].Value = pedido.getSetValorTotal;
+
+            parametro = "Data";
+            cmd.Parameters.Add(parametro, SqlDbType.NVarChar, 10);
+            cmd.Parameters[parametro].Direction = ParameterDirection.Input;
+            cmd.Parameters[parametro].Value = pedido.getSetData;
+
+            cmd.ExecuteNonQuery();
+
+            retornoDB = Convert.ToInt32(cmd.Parameters["RetornoOperacao"].Value);
+
+            if (retornoDB != 2)
+            {
+                con = conexao.fecharConexao();
+
+                return retornoDB;
+            }
+            else
+            {
+                throw new Exception("Ocorreu um erro ao tentar Finalizar o processo!");
+            }
+        }
     }
 }

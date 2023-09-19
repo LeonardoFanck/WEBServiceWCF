@@ -397,5 +397,19 @@ namespace WEBServiceWCF
 
             pedidosDAO.excluirItensPedido(ID);
         }
+
+        public double VerificarValorPedido(int ID)
+        {
+            PedidosDAO pedidosDAO = new PedidosDAO();
+
+            return pedidosDAO.VerificarValorPedido(ID);
+        }
+
+        public int FinalizarPedido(Pedido pedido)
+        {
+            PedidosDAO pedidosDAO = new PedidosDAO();
+
+            return pedidosDAO.finalizarPedido(pedido);
+        }
     }
 }

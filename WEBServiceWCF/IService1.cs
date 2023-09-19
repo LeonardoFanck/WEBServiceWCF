@@ -182,5 +182,11 @@ namespace WEBServiceWCF
 
         [OperationContract]
         void excluirItensPedido(int ID);
+
+        [OperationContract]
+        double VerificarValorPedido(int ID);
+
+        [OperationContract]
+        int FinalizarPedido(Pedido pedido);
     }
 }
