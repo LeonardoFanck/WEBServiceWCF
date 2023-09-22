@@ -188,5 +188,11 @@ namespace WEBServiceWCF
 
         [OperationContract]
         int FinalizarPedido(Pedido pedido);
+
+
+
+        // ----- LISTA DE PESQUISA -------
+        [OperationContract]
+        List<ListaPedido> GetListaPedidos(string pesquisa);
     }
 }

@@ -411,5 +411,14 @@ namespace WEBServiceWCF
 
             return pedidosDAO.finalizarPedido(pedido);
         }
+
+        // ---------------------- LISTA DE PESQUISA -------------------------------
+
+        public List<ListaPedido> GetListaPedidos(string pesquisa)
+        {
+            ListaPesquisaDAO listaPesquisaDAO = new ListaPesquisaDAO();
+
+            return listaPesquisaDAO.ListaPedidos(pesquisa);
+        }
     }
 }
