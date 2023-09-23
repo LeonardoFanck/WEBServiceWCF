@@ -414,11 +414,11 @@ namespace WEBServiceWCF
 
         // ---------------------- LISTA DE PESQUISA -------------------------------
 
-        public List<ListaPedido> GetListaPedidos(string pesquisa)
+        public List<ListaPedido> GetListaPedidos(string tipoPesquisa, string pesquisa)
         {
             ListaPesquisaDAO listaPesquisaDAO = new ListaPesquisaDAO();
 
-            return listaPesquisaDAO.ListaPedidos(pesquisa);
+            return listaPesquisaDAO.ListaPedidos(tipoPesquisa, pesquisa);
         }
     }
 }

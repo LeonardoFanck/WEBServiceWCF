@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
+using System.ServiceModel;
 using System.ServiceModel.PeerResolvers;
 using System.Web;
 using WEBServiceWCF.Banco;
@@ -13,12 +14,14 @@ namespace WEBServiceWCF.DAO
     {
         private ConexaoDB conexao = new ConexaoDB();
   
-        public List<ListaPedido> ListaPedidos(string pesquisa)
+        public List<ListaPedido> ListaPedidos(string tipoPesquisa, string pesquisa)
         {
             SqlConnection con = conexao.abrirConexao();
             SqlCommand cmd;
             string SQL;
             SqlDataReader retornoDB;
+
+            tipoPesquisa = validarTipoPesquisaPedido(tipoPesquisa);
 
             SQL = "Pedido.IdPedidos, Cli.CliNome, PGTO.NomeFormaPgt, CONVERT(VARCHAR(10), CONVERT(DATE, Pedido.PedidoData, 126), 103) AS Data, Pedido.PedidoValorTotal " +
                 "FROM Pedido " +
@@ -27,7 +30,7 @@ namespace WEBServiceWCF.DAO
 
             if (pesquisa != "")
             {
-                SQL = $"SELECT {SQL} WHERE LIKE %{pesquisa}%";
+                SQL = $"SELECT {SQL} WHERE {tipoPesquisa} LIKE '%{pesquisa}%'";
             }
             else
             {
@@ -65,6 +68,32 @@ namespace WEBServiceWCF.DAO
 
                 throw new Exception("Nenhum registro encontrado!");
             }
+        }
+
+        private string validarTipoPesquisaPedido(string tipo)
+        {
+            if (tipo.Equals("Codigo"))
+            {
+                return "Pedido.IdPedidos"; 
+            }
+            else if (tipo.Equals("Cliente"))
+            {
+                return "Cli.CliNome";
+            }
+            else if (tipo.Equals("Forma PGTO"))
+            {
+                return "PGTO.NomeFormaPgt";
+            }
+            else if (tipo.Equals("Data"))
+            {
+                return "CONVERT(VARCHAR(10), CONVERT(DATE, Pedido.PedidoData, 126), 103)";
+            }
+            else if (tipo.Equals("Valor"))
+            {
+                return "Pedido.PedidoValorTotal";
+            }
+
+            return "Cli.CliNome";
         }
     }
 }
