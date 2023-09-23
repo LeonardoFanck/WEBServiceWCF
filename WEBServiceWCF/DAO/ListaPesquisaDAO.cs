@@ -95,5 +95,84 @@ namespace WEBServiceWCF.DAO
 
             return "Cli.CliNome";
         }
+
+        public List<ListaCliente> ListaClientes(string tipoPesquisa, string pesquisa)
+        {
+            SqlConnection con = conexao.abrirConexao();
+            SqlCommand cmd;
+            string SQL;
+            SqlDataReader retornoDB;
+
+            tipoPesquisa = validarTipoPesquisaCliente(tipoPesquisa);
+
+            SQL = "IdCliente, CliNome, CliCPF, CONVERT(VARCHAR(10), CONVERT(DATE, CliDtNascimento, 126), 103) AS Data, CliStatus FROM Clientes";
+
+            if (pesquisa != "")
+            {
+                SQL = $"SELECT {SQL} WHERE {tipoPesquisa} LIKE '%{pesquisa}%'";
+            }
+            else
+            {
+                SQL = $"SELECT TOP 25 {SQL}";
+            }
+
+            cmd = new SqlCommand(SQL, con);
+            cmd.CommandTimeout = conexao.timeOutSQL();
+            retornoDB = cmd.ExecuteReader();
+
+            if (retornoDB.HasRows == true)
+            {
+                List<ListaCliente> lista = new List<ListaCliente>();
+
+                while (retornoDB.Read() == true)
+                {
+                    lista.Add(new ListaCliente(
+                        Convert.ToInt32(retornoDB["IdCliente"]),
+                        retornoDB["CliNome"].ToString(),
+                        retornoDB["CliCPF"].ToString(),
+                        retornoDB["Data"].ToString(),
+                        Convert.ToBoolean(retornoDB["CliStatus"])
+                        ));
+                }
+
+                con = conexao.fecharConexao();
+                retornoDB.Close();
+
+                return lista;
+            }
+            else
+            {
+                con = conexao.fecharConexao();
+                retornoDB.Close();
+
+                throw new Exception("Nenhum registro encontrado!");
+            }
+        }
+
+        private string validarTipoPesquisaCliente(string tipo)
+        {
+            if (tipo.Equals("Codigo"))
+            {
+                return "IdCliente";
+            }
+            else if (tipo.Equals("Nome"))
+            {
+                return "CliNome";
+            }
+            else if (tipo.Equals("Documento"))
+            {
+                return "CliCPF";
+            }
+            else if (tipo.Equals("Dt Nasc"))
+            {
+                return "CONVERT(VARCHAR(10), CONVERT(DATE, CliDtNascimento, 126), 103)";
+            }
+            else if (tipo.Equals("Status"))
+            {
+                return "CliStatus";
+            }
+
+            return "Cli.CliNome";
+        }
     }
 }

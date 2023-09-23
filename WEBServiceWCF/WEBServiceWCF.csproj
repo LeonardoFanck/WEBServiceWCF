@@ -71,6 +71,7 @@
     <Compile Include="Classes\ConfiguracoesGerais.cs" />
     <Compile Include="Classes\Estados.cs" />
     <Compile Include="Classes\FormaPGTO.cs" />
+    <Compile Include="Classes\ListaCliente.cs" />
     <Compile Include="Classes\ListaPedido.cs" />
     <Compile Include="Classes\Operador.cs" />
     <Compile Include="Classes\Pedido.cs" />

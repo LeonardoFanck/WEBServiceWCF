@@ -194,5 +194,8 @@ namespace WEBServiceWCF
         // ----- LISTA DE PESQUISA -------
         [OperationContract]
         List<ListaPedido> GetListaPedidos(string tipoPesquisa, string pesquisa);
+
+        [OperationContract]
+        List<ListaCliente> GetListaClientes(string tipoPesquisa, string pesquisa);
     }
 }
