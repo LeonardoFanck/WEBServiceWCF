@@ -421,11 +421,11 @@ namespace WEBServiceWCF
             return listaPesquisaDAO.ListaPedidos(tipoPesquisa, pesquisa);
         }
 
-        public List<ListaCliente> GetListaClientes(string tipoPesquisa, string pesquisa)
+        public List<ListaCliente> GetListaClientes(string tipoPesquisa, string pesquisa, bool inativo)
         {
             ListaPesquisaDAO listaPesquisaDAO = new ListaPesquisaDAO();
 
-            return listaPesquisaDAO.ListaClientes(tipoPesquisa, pesquisa);
+            return listaPesquisaDAO.ListaClientes(tipoPesquisa, pesquisa, inativo);
         }
     }
 }

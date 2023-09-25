@@ -96,7 +96,7 @@ namespace WEBServiceWCF.DAO
             return "Cli.CliNome";
         }
 
-        public List<ListaCliente> ListaClientes(string tipoPesquisa, string pesquisa)
+        public List<ListaCliente> ListaClientes(string tipoPesquisa, string pesquisa, bool inativo)
         {
             SqlConnection con = conexao.abrirConexao();
             SqlCommand cmd;
@@ -105,7 +105,8 @@ namespace WEBServiceWCF.DAO
 
             tipoPesquisa = validarTipoPesquisaCliente(tipoPesquisa);
 
-            SQL = "IdCliente, CliNome, CliCPF, CONVERT(VARCHAR(10), CONVERT(DATE, CliDtNascimento, 126), 103) AS Data, CliStatus FROM Clientes";
+            SQL = $"IdCliente, CliNome, CliCPF, CONVERT(VARCHAR(10), CONVERT(DATE, CliDtNascimento, 126), 103) AS Data, CliStatus " +
+                "FROM Clientes";
 
             if (pesquisa != "")
             {
@@ -114,6 +115,18 @@ namespace WEBServiceWCF.DAO
             else
             {
                 SQL = $"SELECT TOP 25 {SQL}";
+            }
+
+            if (inativo == false)
+            {
+                if (pesquisa != "")
+                {
+                    SQL = $"{SQL} AND CliStatus = 0";
+                }
+                else
+                {
+                    SQL = $"{SQL} WHERE CliStatus = 0";
+                }
             }
 
             cmd = new SqlCommand(SQL, con);
