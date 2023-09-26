@@ -427,5 +427,26 @@ namespace WEBServiceWCF
 
             return listaPesquisaDAO.ListaClientes(tipoPesquisa, pesquisa, inativo);
         }
+
+        public List<FormaPGTO> GetListaFormaPGTO(string tipoPesquisa, string pesquisa, bool inativo)
+        {
+            ListaPesquisaDAO listaPesquisaDAO = new ListaPesquisaDAO();
+
+            return listaPesquisaDAO.ListaFormaPGTO(tipoPesquisa , pesquisa, inativo);
+        }
+
+        public List<ListaProduto> GetListaProdutos(string tipoPesquisa, string pesquisa, bool inativo)
+        {
+            ListaPesquisaDAO listaPesquisaDAO = new ListaPesquisaDAO();
+
+            return listaPesquisaDAO.ListaProdutos(tipoPesquisa, pesquisa, inativo);
+        }
+
+        public List<Categoria> GetListaCategorias(string tipoPesquisa, string pesquisa, bool inativo)
+        {
+            ListaPesquisaDAO listaPesquisaDAO = new ListaPesquisaDAO();
+
+            return listaPesquisaDAO.ListaCategorias(tipoPesquisa, pesquisa, inativo);
+        }
     }
 }

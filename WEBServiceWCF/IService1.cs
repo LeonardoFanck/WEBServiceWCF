@@ -197,5 +197,14 @@ namespace WEBServiceWCF
 
         [OperationContract]
         List<ListaCliente> GetListaClientes(string tipoPesquisa, string pesquisa, bool inativo);
+
+        [OperationContract]
+        List<FormaPGTO> GetListaFormaPGTO(string tipoPesquisa, string pesquisa, bool inativo);
+
+        [OperationContract]
+        List<ListaProduto> GetListaProdutos(string tipoPesquisa, string pesquisa, bool inativo);
+
+        [OperationContract]
+        List<Categoria> GetListaCategorias(string tipoPesquisa, string pesquisa, bool inativo);
     }
 }

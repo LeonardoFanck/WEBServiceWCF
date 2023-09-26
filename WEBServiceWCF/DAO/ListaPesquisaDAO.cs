@@ -30,11 +30,11 @@ namespace WEBServiceWCF.DAO
 
             if (pesquisa != "")
             {
-                SQL = $"SELECT {SQL} WHERE {tipoPesquisa} LIKE '%{pesquisa}%'";
+                SQL = $"SELECT {SQL} WHERE {tipoPesquisa} LIKE '%{pesquisa}%' ORDER BY {tipoPesquisa}";
             }
             else
             {
-                SQL = $"SELECT TOP 25 {SQL}";
+                SQL = $"SELECT TOP 25 {SQL} ORDER BY IdPedidos";
             }
 
             cmd = new SqlCommand(SQL, con);
@@ -121,11 +121,11 @@ namespace WEBServiceWCF.DAO
             {
                 if (pesquisa != "")
                 {
-                    SQL = $"{SQL} AND CliStatus = 0";
+                    SQL = $"{SQL} AND CliStatus = 0 ORDER BY {tipoPesquisa}";
                 }
                 else
                 {
-                    SQL = $"{SQL} WHERE CliStatus = 0";
+                    SQL = $"{SQL} WHERE CliStatus = 0 ORDER BY IdCliente";
                 }
             }
 
@@ -182,10 +182,275 @@ namespace WEBServiceWCF.DAO
             }
             else if (tipo.Equals("Status"))
             {
-                return "CliStatus";
+                return "CASE CliStatus WHEN 0 THEN 'Não' ELSE 'Sim' END";
             }
 
             return "Cli.CliNome";
         }
+
+        public List<FormaPGTO> ListaFormaPGTO(string tipoPesquisa, string pesquisa, bool inativo)
+        {
+            SqlConnection con = conexao.abrirConexao();
+            SqlCommand cmd;
+            string SQL;
+            SqlDataReader retornoDB;
+
+            tipoPesquisa = validarTipoPesquisaFormaPGTO(tipoPesquisa);
+
+            SQL = $"* " +
+                "FROM FormaPgto";
+
+            if (pesquisa != "")
+            {
+                SQL = $"SELECT {SQL} WHERE {tipoPesquisa} LIKE '%{pesquisa}%'";
+            }
+            else
+            {
+                SQL = $"SELECT TOP 25 {SQL}";
+            }
+
+            if (inativo == false)
+            {
+                if (pesquisa != "")
+                {
+                    SQL = $"{SQL} AND StatusFormaPgt = 0 ORDER BY {tipoPesquisa}";
+                }
+                else
+                {
+                    SQL = $"{SQL} WHERE StatusFormaPgt = 0 ORDER BY IdFormaPgt";
+                }
+            }
+
+            cmd = new SqlCommand(SQL, con);
+            cmd.CommandTimeout = conexao.timeOutSQL();
+            retornoDB = cmd.ExecuteReader();
+
+            if (retornoDB.HasRows == true)
+            {
+                List<FormaPGTO> lista = new List<FormaPGTO>();
+
+                while (retornoDB.Read() == true)
+                {
+                    lista.Add(new FormaPGTO(
+                        Convert.ToInt32(retornoDB["IdFormaPgt"]),
+                        retornoDB["NomeFormaPgt"].ToString(),
+                        Convert.ToBoolean(retornoDB["StatusFormaPgt"])
+                        ));
+                }
+
+                con = conexao.fecharConexao();
+                retornoDB.Close();
+
+                return lista;
+            }
+            else
+            {
+                con = conexao.fecharConexao();
+                retornoDB.Close();
+
+                throw new Exception("Nenhum registro encontrado!");
+            }
+        }
+
+        private string validarTipoPesquisaFormaPGTO(string tipo)
+        {
+            if (tipo.Equals("Codigo"))
+            {
+                return "IdFormaPgt";
+            }
+            else if (tipo.Equals("Nome"))
+            {
+                return "NomeFormaPgt";
+            }
+            else if (tipo.Equals("Status"))
+            {
+                return "CASE StatusFormaPgt WHEN 0 THEN 'Não' ELSE 'Sim' END";
+            }
+
+            return "NomeFormaPgt";
+        }
+
+        public List<ListaProduto> ListaProdutos(string tipoPesquisa, string pesquisa, bool inativo)
+        {
+            SqlConnection con = conexao.abrirConexao();
+            SqlCommand cmd;
+            string SQL;
+            SqlDataReader retornoDB;
+            ProdutoDAO produtoDAO = new ProdutoDAO();
+
+            tipoPesquisa = validarTipoPesquisaProduto(tipoPesquisa);
+
+            SQL = $"Prod.CodProduto, Prod.NomeProduto, Cat.NomeCategoria, Prod.ValorProduto, Prod.CustoProduto, Prod.StatusProduto " +
+                $"FROM Produtos AS Prod " +
+                $"INNER JOIN Categoria AS Cat ON Cat.IdCategoria = Prod.CategoriaProduto";
+
+            if (pesquisa != "")
+            {
+                SQL = $"SELECT {SQL} WHERE {tipoPesquisa} LIKE '%{pesquisa}%'";
+            }
+            else
+            {
+                SQL = $"SELECT TOP 25 {SQL}";
+            }
+
+            if (inativo == false)
+            {
+                if (pesquisa != "")
+                {
+                    SQL = $"{SQL} AND Prod.StatusProduto = 0 ORDER BY  {tipoPesquisa}";
+                }
+                else
+                {
+                    SQL = $"{SQL} WHERE Prod.StatusProduto = 0 ORDER BY CodProduto";
+                }
+            }
+
+            cmd = new SqlCommand(SQL, con);
+            cmd.CommandTimeout = conexao.timeOutSQL();
+            retornoDB = cmd.ExecuteReader();
+
+            if (retornoDB.HasRows == true)
+            {
+                List<ListaProduto> lista = new List<ListaProduto>();
+
+                while (retornoDB.Read() == true)
+                {
+                    lista.Add(new ListaProduto(
+                        Convert.ToInt32(retornoDB["CodProduto"]),
+                        retornoDB["NomeProduto"].ToString(),
+                        retornoDB["NomeCategoria"].ToString(),
+                        Convert.ToDouble(retornoDB["ValorProduto"]),
+                        Convert.ToDouble(retornoDB["CustoProduto"]),
+                        produtoDAO.getEstoque(Convert.ToInt32(retornoDB["CodProduto"])),
+                        Convert.ToBoolean(retornoDB["StatusProduto"])
+                        ));
+                }
+
+                con = conexao.fecharConexao();
+                retornoDB.Close();
+
+                return lista;
+            }
+            else
+            {
+                con = conexao.fecharConexao();
+                retornoDB.Close();
+
+                throw new Exception("Nenhum registro encontrado!");
+            }
+        }
+
+        private string validarTipoPesquisaProduto(string tipo)
+        {
+            if (tipo.Equals("Codigo"))
+            {
+                return "Prod.CodProduto";
+            }
+            else if (tipo.Equals("Nome"))
+            {
+                return "Prod.NomeProduto";
+            }
+            else if (tipo.Equals("Categoria"))
+            {
+                return "Cat.NomeCategoria";
+            }
+            else if (tipo.Equals("Valor"))
+            {
+                return "Prod.ValorProduto";
+            }
+            else if (tipo.Equals("Custo"))
+            {
+                return "Prod.CustoProduto";
+            }
+            else if (tipo.Equals("Status"))
+            {
+                return "CASE Prod.StatusProduto WHEN 0 THEN 'Não' ELSE 'Sim' END";
+            }
+
+            return "Cli.CliNome";
+        }
+
+        public List<Categoria> ListaCategorias(string tipoPesquisa, string pesquisa, bool inativo)
+        {
+            SqlConnection con = conexao.abrirConexao();
+            SqlCommand cmd;
+            string SQL;
+            SqlDataReader retornoDB;
+
+            tipoPesquisa = validarTipoPesquisaCategoria(tipoPesquisa);
+
+            SQL = $"* " +
+                "FROM Categoria";
+
+            if (pesquisa != "")
+            {
+                SQL = $"SELECT {SQL} WHERE {tipoPesquisa} LIKE '%{pesquisa}%'";
+            }
+            else
+            {
+                SQL = $"SELECT TOP 25 {SQL}";
+            }
+
+            if (inativo == false)
+            {
+                if (pesquisa != "")
+                {
+                    SQL = $"{SQL} AND StatusCategoria = 0 ORDER BY  {tipoPesquisa}";
+                }
+                else
+                {
+                    SQL = $"{SQL} WHERE StatusCategoria = 0 ORDER BY IdCategoria";
+                }
+            }
+
+            cmd = new SqlCommand(SQL, con);
+            cmd.CommandTimeout = conexao.timeOutSQL();
+            retornoDB = cmd.ExecuteReader();
+
+            if (retornoDB.HasRows == true)
+            {
+                List<Categoria> lista = new List<Categoria>();
+
+                while (retornoDB.Read() == true)
+                {
+                    lista.Add(new Categoria(
+                        Convert.ToInt32(retornoDB["IdCategoria"]),
+                        retornoDB["NomeCategoria"].ToString(),
+                        Convert.ToBoolean(retornoDB["StatusCategoria"])
+                        ));
+                }
+
+                con = conexao.fecharConexao();
+                retornoDB.Close();
+
+                return lista;
+            }
+            else
+            {
+                con = conexao.fecharConexao();
+                retornoDB.Close();
+
+                throw new Exception("Nenhum registro encontrado!");
+            }
+        }
+
+        private string validarTipoPesquisaCategoria(string tipo)
+        {
+            if (tipo.Equals("Codigo"))
+            {
+                return "IdCategoria";
+            }
+            else if (tipo.Equals("Nome"))
+            {
+                return "NomeCategoria";
+            }
+            else if (tipo.Equals("Status"))
+            {
+                return "CASE StatusCategoria WHEN 0 THEN 'Não' ELSE 'Sim' END";
+            }
+
+            return "NomeCategoria";
+        }
+
     }
 }
