@@ -448,5 +448,12 @@ namespace WEBServiceWCF
 
             return listaPesquisaDAO.ListaCategorias(tipoPesquisa, pesquisa, inativo);
         }
+
+        public List<Operador> GetListaOperador(string tipoPesquisa, string pesquisa, bool inativo)
+        {
+            ListaPesquisaDAO listaPesquisaDAO = new ListaPesquisaDAO();
+
+            return listaPesquisaDAO.ListaOperador(tipoPesquisa, pesquisa, inativo);
+        }
     }
 }

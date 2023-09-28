@@ -206,5 +206,8 @@ namespace WEBServiceWCF
 
         [OperationContract]
         List<Categoria> GetListaCategorias(string tipoPesquisa, string pesquisa, bool inativo);
+
+        [OperationContract]
+        List<Operador> GetListaOperador(string tipoPesquisa, string pesquisa, bool inativo);
     }
 }

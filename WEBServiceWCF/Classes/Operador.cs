@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Policy;
 using System.Web;
 
 namespace WEBServiceWCF.Classes
@@ -22,6 +23,14 @@ namespace WEBServiceWCF.Classes
         private bool Entrada;
 
         public Operador() { }
+
+        public Operador(int id, string nome, bool admin, bool status)
+        {
+            ID = id;
+            Nome = nome;
+            Admin = admin;
+            Status = status;
+        }
 
         public Operador(int iD, string nome, string senha, bool admin, bool status, bool cadastroOperador, bool cadastroCategoria, bool cadastroCliente, bool cadastroProduto, bool cadastroFormaPGTO, bool tabelaUsuario, bool pedidos, bool entrada)
         {

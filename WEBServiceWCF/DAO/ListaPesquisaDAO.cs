@@ -180,7 +180,7 @@ namespace WEBServiceWCF.DAO
             {
                 return "CONVERT(VARCHAR(10), CONVERT(DATE, CliDtNascimento, 126), 103)";
             }
-            else if (tipo.Equals("Status"))
+            else if (tipo.Equals("Inativo"))
             {
                 return "CASE CliStatus WHEN 0 THEN 'Não' ELSE 'Sim' END";
             }
@@ -262,7 +262,7 @@ namespace WEBServiceWCF.DAO
             {
                 return "NomeFormaPgt";
             }
-            else if (tipo.Equals("Status"))
+            else if (tipo.Equals("Inativo"))
             {
                 return "CASE StatusFormaPgt WHEN 0 THEN 'Não' ELSE 'Sim' END";
             }
@@ -362,7 +362,7 @@ namespace WEBServiceWCF.DAO
             {
                 return "Prod.CustoProduto";
             }
-            else if (tipo.Equals("Status"))
+            else if (tipo.Equals("Inativo"))
             {
                 return "CASE Prod.StatusProduto WHEN 0 THEN 'Não' ELSE 'Sim' END";
             }
@@ -444,7 +444,7 @@ namespace WEBServiceWCF.DAO
             {
                 return "NomeCategoria";
             }
-            else if (tipo.Equals("Status"))
+            else if (tipo.Equals("Inativo"))
             {
                 return "CASE StatusCategoria WHEN 0 THEN 'Não' ELSE 'Sim' END";
             }
@@ -452,5 +452,91 @@ namespace WEBServiceWCF.DAO
             return "NomeCategoria";
         }
 
+        public List<Operador> ListaOperador(string tipoPesquisa, string pesquisa, bool inativo)
+        {
+            SqlConnection con = conexao.abrirConexao();
+            SqlCommand cmd;
+            string SQL;
+            SqlDataReader retornoDB;
+
+            tipoPesquisa = validarTipoPesquisaOperador(tipoPesquisa);
+
+            SQL = $"* " +
+                "FROM Operador";
+
+            if (pesquisa != "")
+            {
+                SQL = $"SELECT {SQL} WHERE {tipoPesquisa} LIKE '%{pesquisa}%'";
+            }
+            else
+            {
+                SQL = $"SELECT TOP 25 {SQL}";
+            }
+
+            if (inativo == false)
+            {
+                if (pesquisa != "")
+                {
+                    SQL = $"{SQL} AND statusOperador = 0 ORDER BY  {tipoPesquisa}";
+                }
+                else
+                {
+                    SQL = $"{SQL} WHERE statusOperador = 0 ORDER BY IdOperador";
+                }
+            }
+
+            cmd = new SqlCommand(SQL, con);
+            cmd.CommandTimeout = conexao.timeOutSQL();
+            retornoDB = cmd.ExecuteReader();
+
+            if (retornoDB.HasRows == true)
+            {
+                List<Operador> lista = new List<Operador>();
+
+                while (retornoDB.Read() == true)
+                {
+                    lista.Add(new Operador(
+                        Convert.ToInt32(retornoDB["IdOperador"]),
+                        retornoDB["nomeOperador"].ToString(),
+                        Convert.ToBoolean(retornoDB["adminOperador"]),
+                        Convert.ToBoolean(retornoDB["statusOperador"])
+                        ));
+                }
+
+                con = conexao.fecharConexao();
+                retornoDB.Close();
+
+                return lista;
+            }
+            else
+            {
+                con = conexao.fecharConexao();
+                retornoDB.Close();
+
+                throw new Exception("Nenhum registro encontrado!");
+            }
+        }
+
+        private string validarTipoPesquisaOperador(string tipo)
+        {		
+            if (tipo.Equals("Codigo"))
+            {
+                return "IdOperador";
+            }
+            else if (tipo.Equals("Nome"))
+            {
+                return "nomeOperador";
+            }
+            else if (tipo.Equals("Admin"))
+            {
+                return "CASE adminOperador WHEN 0 THEN 'Não' ELSE 'Sim' END";
+            }
+            else if (tipo.Equals("Inativo"))
+            {
+                return "CASE statusOperador WHEN 0 THEN 'Não' ELSE 'Sim' END";
+            }
+
+            return "nomeOperador";
+        }
     }
 }
