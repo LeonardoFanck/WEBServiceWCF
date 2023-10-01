@@ -76,6 +76,7 @@
     <Compile Include="Classes\ListaProduto.cs" />
     <Compile Include="Classes\Operador.cs" />
     <Compile Include="Classes\Pedido.cs" />
+    <Compile Include="Classes\PedidoComDados.cs" />
     <Compile Include="Classes\PedidoItens.cs" />
     <Compile Include="Classes\Produto.cs" />
     <Compile Include="Classes\TipoClientes.cs" />

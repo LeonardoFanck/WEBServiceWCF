@@ -96,6 +96,50 @@ namespace WEBServiceWCF.DAO
             
         }
 
+        public PedidoComDados getPedidoComDados(int ID)
+        {
+            string SQL;
+            SqlDataReader retornoDB;
+            SqlConnection con = conexao.abrirConexao();
+            SqlCommand cmd;
+
+            SQL = "SELECT Pedido.IdPedidos, Pedido.PedidoData, Cli.CliNome, PGTO.NomeFormaPgt, Pedido.PedidoValor, Pedido.PedidoDesconto, Pedido.PedidoValorTotal " +
+                "FROM Pedido " +
+                "INNER JOIN Clientes AS Cli ON Cli.IdCliente = Pedido.PedidoIdCli " +
+                "INNER JOIN FormaPGTO AS PGTO ON PGTO.IdFormaPgt = Pedido.PedidoIdPgto " +
+                "WHERE IdPedidos = @ID";
+            cmd = new SqlCommand(SQL, con);
+            cmd.CommandTimeout = conexao.timeOutSQL();
+            cmd.Parameters.AddWithValue("@ID", ID);
+
+            retornoDB = cmd.ExecuteReader();
+
+            if (retornoDB.HasRows == true && retornoDB.Read() == true)
+            {
+                PedidoComDados pedido = new PedidoComDados(
+                    Convert.ToInt32(retornoDB["IdPedidos"]),
+                    retornoDB["PedidoData"].ToString(),
+                    retornoDB["CliNome"].ToString(),
+                    retornoDB["NomeFormaPgt"].ToString(),
+                    Convert.ToDouble(retornoDB["PedidoValor"]),
+                    Convert.ToDouble(retornoDB["PedidoDesconto"]),
+                    Convert.ToDouble(retornoDB["PedidoValorTotal"])
+                    );
+
+                con = conexao.fecharConexao();
+                retornoDB.Close();
+
+                return pedido;
+            }
+            else
+            {
+                con = conexao.fecharConexao();
+                retornoDB.Close();
+
+                throw new Exception("Registro N° " + ID + " não localizado!");
+            }
+        }
+
         public int getRegistroInicial()
         {
             SqlConnection con = conexao.abrirConexao();

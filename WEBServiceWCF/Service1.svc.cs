@@ -347,6 +347,14 @@ namespace WEBServiceWCF
 
             return pedidosDAO.getProximoRegistro();
         }
+
+        public PedidoComDados GetPedidoComDados(int ID)
+        {
+            PedidosDAO pedidosDAO = new PedidosDAO();
+
+            return pedidosDAO.getPedidoComDados(ID);
+        }
+
         public int AvancarRegistroPedido(int ID)
         {
             PedidosDAO pedidosDAO = new PedidosDAO();
@@ -360,15 +368,6 @@ namespace WEBServiceWCF
 
             return pedidosDAO.voltarRegistro(ID);
         }
-
-        /*
-        public int SalvarPedido(Pedido pedido)
-        {
-            PedidosDAO pedidosDAO = new PedidosDAO();
-
-            return pedidosDAO.salvarRegistro(pedido);
-        }
-        */
 
         public List<PedidoItens> GetPedidoItens(int ID)
         {
