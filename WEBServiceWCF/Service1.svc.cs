@@ -454,5 +454,14 @@ namespace WEBServiceWCF
 
             return listaPesquisaDAO.ListaOperador(tipoPesquisa, pesquisa, inativo);
         }
+
+        // ---------------------- RELATÓRIOS -------------------------------
+
+        public List<PedidoComDados> GetRelatorioPedido(string dtInicio, string dtFinal, string cliente, string PGTO)
+        {
+            RelatoriosDAO relatoriosDAO = new RelatoriosDAO();
+
+            return relatoriosDAO.getRelatorioPedido(dtInicio, dtFinal, cliente, PGTO);
+        }
     }
 }

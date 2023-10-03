@@ -212,5 +212,9 @@ namespace WEBServiceWCF
 
         [OperationContract]
         List<Operador> GetListaOperador(string tipoPesquisa, string pesquisa, bool inativo);
+
+        // ----- RELATÓRIOS -----
+        [OperationContract]
+        List<PedidoComDados> GetRelatorioPedido(string dtInicio, string dtFinal, string cliente, string PGTO);
     }
 }
