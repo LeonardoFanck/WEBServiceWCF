@@ -5,6 +5,7 @@ using System.Runtime.Serialization;
 using System.ServiceModel;
 using System.ServiceModel.Web;
 using System.Text;
+using WEBServiceWCF.Banco;
 using WEBServiceWCF.Classes;
 using WEBServiceWCF.DAO;
 
@@ -462,6 +463,92 @@ namespace WEBServiceWCF
             RelatoriosDAO relatoriosDAO = new RelatoriosDAO();
 
             return relatoriosDAO.getRelatorioPedido(dtInicio, dtFinal, cliente, PGTO);
+        }
+
+        // ---------------------- PEDIDO DE ENTRADA -------------------------------
+
+        public Entrada GetEntrada(int ID)
+        {
+            EntradasDAO entradasDAO = new EntradasDAO();
+
+            return entradasDAO.getEntrada(ID);
+        }
+
+        public Entrada GetRegistroInicialEntrada()
+        {
+            EntradasDAO entradasDAO = new EntradasDAO();
+
+            return entradasDAO.getEntrada(entradasDAO.getRegistroInicial());
+        }
+
+        public int GetProximoRegistroEntrada()
+        {
+            EntradasDAO entradasDAO = new EntradasDAO();
+
+            return entradasDAO.getProximoRegistro();
+        }
+
+        public EntradaComDados GetEntradaComDados(int ID)
+        {
+            EntradasDAO entradasDAO = new EntradasDAO();
+
+            return entradasDAO.getEntradaComDados(ID);
+        }
+
+        public int AvancarRegistroEntrada(int ID)
+        {
+            EntradasDAO entradasDAO = new EntradasDAO();
+
+            return entradasDAO.avancarRegistro(ID);
+        }
+
+        public int VoltarRegistroEntrada(int ID)
+        {
+            EntradasDAO entradasDAO = new EntradasDAO();
+
+            return entradasDAO.voltarRegistro(ID);
+        }
+
+        public List<EntradaItens> GetEntradaItens(int ID)
+        {
+            EntradasDAO entradasDAO = new EntradasDAO();
+
+            return entradasDAO.getEntradaItens(ID);
+        }
+
+        public void salvarItensEntrada(EntradaItens item)
+        {
+            EntradasDAO entradasDAO = new EntradasDAO();
+
+            entradasDAO.salvarItensEntrada(item);
+        }
+
+        public void excluirItemEntrada(int ID)
+        {
+            EntradasDAO entradasDAO = new EntradasDAO();
+
+            entradasDAO.excluirItem(ID);
+        }
+
+        public void excluirItensEntrada(int ID)
+        {
+            EntradasDAO entradasDAO = new EntradasDAO();
+
+            entradasDAO.excluirItens(ID);
+        }
+
+        public double VerificarValorEntrada(int ID)
+        {
+            EntradasDAO entradasDAO = new EntradasDAO();
+
+            return entradasDAO.VerificarCusto(ID);
+        }
+
+        public int FinalizarEntrada(Entrada entrada)
+        {
+            EntradasDAO entradasDAO = new EntradasDAO();
+
+            return entradasDAO.finalizarEntrada(entrada);
         }
     }
 }

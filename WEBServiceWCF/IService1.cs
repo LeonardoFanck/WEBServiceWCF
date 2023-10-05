@@ -192,6 +192,42 @@ namespace WEBServiceWCF
         [OperationContract]
         int FinalizarPedido(Pedido pedido);
 
+        // ----- PEDIDO DE ENTRADA -----
+        [OperationContract]
+        Entrada GetEntrada(int ID);
+
+        [OperationContract]
+        List<EntradaItens> GetEntradaItens(int ID);
+
+        [OperationContract]
+        Entrada GetRegistroInicialEntrada();
+
+        [OperationContract]
+        EntradaComDados GetEntradaComDados(int ID);
+
+        [OperationContract]
+        int GetProximoRegistroEntrada();
+
+        [OperationContract]
+        int AvancarRegistroEntrada(int ID);
+
+        [OperationContract]
+        int VoltarRegistroEntrada(int ID);
+
+        [OperationContract]
+        void salvarItensEntrada(EntradaItens item);
+
+        [OperationContract]
+        void excluirItemEntrada(int ID);
+
+        [OperationContract]
+        void excluirItensEntrada(int ID);
+
+        [OperationContract]
+        double VerificarValorEntrada(int ID);
+
+        [OperationContract]
+        int FinalizarEntrada(Entrada entrada);
 
 
         // ----- LISTA DE PESQUISA -------
