@@ -96,26 +96,31 @@ namespace WEBServiceWCF.DAO
             return "Cli.CliNome";
         }
 
-        public List<ListaCliente> ListaClientes(string tipoPesquisa, string pesquisa, bool inativo)
+        public List<ListaCliente> ListaClientes(string tipoPesquisa, string pesquisa, bool inativo, string tipoCliente)
         {
             SqlConnection con = conexao.abrirConexao();
             SqlCommand cmd;
             string SQL;
             SqlDataReader retornoDB;
+            string quantidade;
 
             tipoPesquisa = validarTipoPesquisaCliente(tipoPesquisa);
+            tipoCliente = validarClienteFornecedor(tipoCliente);
 
-            SQL = $"IdCliente, CliNome, CliCPF, CONVERT(VARCHAR(10), CONVERT(DATE, CliDtNascimento, 126), 103) AS Data, CliStatus " +
-                "FROM Clientes";
+            SQL = $"Cli.IdCliente, Cli.CliNome, Cli.CliCPF, CONVERT(VARCHAR(10), CONVERT(DATE, Cli.CliDtNascimento, 126), 103) AS Data, Cli.CliStatus " +
+                "FROM Clientes AS Cli " +
+                "INNER JOIN TipoClientes AS Tipo ON Cli.IdCliente = Tipo.IdCliente";
 
             if (pesquisa != "")
             {
-                SQL = $"SELECT {SQL} WHERE {tipoPesquisa} LIKE '%{pesquisa}%'";
+                quantidade = "";
             }
             else
             {
-                SQL = $"SELECT TOP 25 {SQL}";
+                quantidade = $"TOP 25";
             }
+
+            SQL = $"SELECT {quantidade} {SQL} WHERE {tipoPesquisa} LIKE '%{pesquisa}%' {tipoCliente}";
 
             if (inativo == false)
             {
@@ -125,7 +130,7 @@ namespace WEBServiceWCF.DAO
                 }
                 else
                 {
-                    SQL = $"{SQL} WHERE CliStatus = 0 ORDER BY IdCliente";
+                    SQL = $"{SQL} AND CliStatus = 0 ORDER BY IdCliente";
                 }
             }
 
@@ -166,26 +171,42 @@ namespace WEBServiceWCF.DAO
         {
             if (tipo.Equals("Codigo"))
             {
-                return "IdCliente";
+                return "Cli.IdCliente";
             }
             else if (tipo.Equals("Nome"))
             {
-                return "CliNome";
+                return "Cli.CliNome";
             }
             else if (tipo.Equals("Documento"))
             {
-                return "CliCPF";
+                return "Cli.CliCPF";
             }
             else if (tipo.Equals("Dt Nasc"))
             {
-                return "CONVERT(VARCHAR(10), CONVERT(DATE, CliDtNascimento, 126), 103)";
+                return "CONVERT(VARCHAR(10), CONVERT(DATE, Cli.CliDtNascimento, 126), 103)";
             }
             else if (tipo.Equals("Inativo"))
             {
-                return "CASE CliStatus WHEN 0 THEN 'Não' ELSE 'Sim' END";
+                return "CASE Cli.CliStatus WHEN 0 THEN 'Não' ELSE 'Sim' END";
             }
 
             return "Cli.CliNome";
+        }
+
+        private string validarClienteFornecedor(string tipo)
+        {
+            if (tipo.Equals("1")) // CLIENTE
+            {
+                return "AND Tipo.TipoCliente = 1";
+            }
+            else if (tipo.Equals("2")) // FORNECEDOR
+            {
+                return "AND Tipo.TipoFornecedor = 1";
+            }
+            else
+            {
+                return "";
+            }
         }
 
         public List<FormaPGTO> ListaFormaPGTO(string tipoPesquisa, string pesquisa, bool inativo)
@@ -537,6 +558,89 @@ namespace WEBServiceWCF.DAO
             }
 
             return "nomeOperador";
+        }
+
+
+        public List<ListaEntrada> ListaEntradas(string tipoPesquisa, string pesquisa)
+        {
+            SqlConnection con = conexao.abrirConexao();
+            SqlCommand cmd;
+            string SQL;
+            SqlDataReader retornoDB;
+
+            tipoPesquisa = validarTipoPesquisaEntrada(tipoPesquisa);
+
+            SQL = "Entrada.IdEntrada, Cli.CliNome, PGTO.NomeFormaPgt, CONVERT(VARCHAR(10), CONVERT(DATE, Entrada.Data, 126), 103) AS Data, Entrada.EntradaCustoTotal " +
+                "FROM Entrada " +
+                "INNER JOIN Clientes AS Cli ON Cli.IdCliente = Entrada.EntradaIdCli " +
+                "INNER JOIN FormaPgto AS PGTO ON PGTO.IdFormaPgt = Entrada.EntradaIdFormaPgto";
+
+            if (pesquisa != "")
+            {
+                SQL = $"SELECT {SQL} WHERE {tipoPesquisa} LIKE '%{pesquisa}%' ORDER BY {tipoPesquisa}";
+            }
+            else
+            {
+                SQL = $"SELECT TOP 25 {SQL} ORDER BY IdEntrada";
+            }
+
+            cmd = new SqlCommand(SQL, con);
+            cmd.CommandTimeout = conexao.timeOutSQL();
+            retornoDB = cmd.ExecuteReader();
+
+            if (retornoDB.HasRows == true)
+            {
+                List<ListaEntrada> lista = new List<ListaEntrada>();
+
+                while (retornoDB.Read() == true)
+                {
+                    lista.Add(new ListaEntrada(
+                        Convert.ToInt32(retornoDB["IdEntrada"]),
+                        retornoDB["CliNome"].ToString(),
+                        retornoDB["NomeFormaPgt"].ToString(),
+                        retornoDB["Data"].ToString(),
+                        Convert.ToDouble(retornoDB["EntradaCustoTotal"])
+                        ));
+                }
+
+                con = conexao.fecharConexao();
+                retornoDB.Close();
+
+                return lista;
+            }
+            else
+            {
+                con = conexao.fecharConexao();
+                retornoDB.Close();
+
+                throw new Exception("Nenhum registro encontrado!");
+            }
+        }
+
+        private string validarTipoPesquisaEntrada(string tipo)
+        {
+            if (tipo.Equals("ID"))
+            {
+                return "Entrada.IdEntrada";
+            }
+            else if (tipo.Equals("Fornecedor"))
+            {
+                return "Cli.CliNome";
+            }
+            else if (tipo.Equals("FormaPGTO"))
+            {
+                return "PGTO.NomeFormaPgt";
+            }
+            else if (tipo.Equals("Data"))
+            {
+                return "CONVERT(VARCHAR(10), CONVERT(DATE, Pedido.PedidoData, 126), 103)";
+            }
+            else if (tipo.Equals("Custo"))
+            {
+                return "Entrada.EntradaCustoTotal";
+            }
+
+            return "Cli.CliNome";
         }
     }
 }

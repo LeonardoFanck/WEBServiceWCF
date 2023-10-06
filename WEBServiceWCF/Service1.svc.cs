@@ -421,11 +421,11 @@ namespace WEBServiceWCF
             return listaPesquisaDAO.ListaPedidos(tipoPesquisa, pesquisa);
         }
 
-        public List<ListaCliente> GetListaClientes(string tipoPesquisa, string pesquisa, bool inativo)
+        public List<ListaCliente> GetListaClientes(string tipoPesquisa, string pesquisa, bool inativo, string tipoCliente)
         {
             ListaPesquisaDAO listaPesquisaDAO = new ListaPesquisaDAO();
 
-            return listaPesquisaDAO.ListaClientes(tipoPesquisa, pesquisa, inativo);
+            return listaPesquisaDAO.ListaClientes(tipoPesquisa, pesquisa, inativo, tipoCliente);
         }
 
         public List<FormaPGTO> GetListaFormaPGTO(string tipoPesquisa, string pesquisa, bool inativo)
@@ -454,6 +454,13 @@ namespace WEBServiceWCF
             ListaPesquisaDAO listaPesquisaDAO = new ListaPesquisaDAO();
 
             return listaPesquisaDAO.ListaOperador(tipoPesquisa, pesquisa, inativo);
+        }
+
+        public List<ListaEntrada> GetListaEntradas(string tipoPesquisa, string pesquisa)
+        {
+            ListaPesquisaDAO listaPesquisaDAO = new ListaPesquisaDAO();
+
+            return listaPesquisaDAO.ListaEntradas(tipoPesquisa, pesquisa);
         }
 
         // ---------------------- RELATÓRIOS -------------------------------

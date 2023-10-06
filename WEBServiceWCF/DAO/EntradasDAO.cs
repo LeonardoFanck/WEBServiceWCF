@@ -172,7 +172,7 @@ namespace WEBServiceWCF.DAO
             string SQL;
             SqlDataReader retornoDB;
 
-            SQL = "SELECT MAX(IdEntrada)+1 AS ID FROM Pedido";
+            SQL = "SELECT ISNULL(MAX(IdEntrada)+1, 1) AS ID FROM Entrada";
             cmd = new SqlCommand(SQL, con);
             cmd.CommandTimeout = conexao.timeOutSQL();
 
@@ -191,6 +191,7 @@ namespace WEBServiceWCF.DAO
             {
                 con = conexao.fecharConexao();
                 retornoDB.Close();
+
                 throw new Exception("Nenhum registro Localizado");
             }
         }
@@ -434,7 +435,7 @@ namespace WEBServiceWCF.DAO
             cmd.Parameters[parametro].Direction = ParameterDirection.Input;
             cmd.Parameters[parametro].Value = entrada.getSetFormaPGTO;
 
-            parametro = "Valor";
+            parametro = "Custo";
             cmd.Parameters.Add(parametro, SqlDbType.Decimal, 5);
             cmd.Parameters[parametro].Direction = ParameterDirection.Input;
             cmd.Parameters[parametro].Precision = 18;
@@ -448,7 +449,7 @@ namespace WEBServiceWCF.DAO
             cmd.Parameters[parametro].Scale = 2;
             cmd.Parameters[parametro].Value = entrada.getSetDesconto;
 
-            parametro = "ValorTotal";
+            parametro = "CustoTotal";
             cmd.Parameters.Add(parametro, SqlDbType.Decimal, 5);
             cmd.Parameters[parametro].Direction = ParameterDirection.Input;
             cmd.Parameters[parametro].Precision = 18;

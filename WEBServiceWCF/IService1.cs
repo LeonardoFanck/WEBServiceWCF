@@ -235,7 +235,7 @@ namespace WEBServiceWCF
         List<ListaPedido> GetListaPedidos(string tipoPesquisa, string pesquisa);
 
         [OperationContract]
-        List<ListaCliente> GetListaClientes(string tipoPesquisa, string pesquisa, bool inativo);
+        List<ListaCliente> GetListaClientes(string tipoPesquisa, string pesquisa, bool inativo, string tipoCliente);
 
         [OperationContract]
         List<FormaPGTO> GetListaFormaPGTO(string tipoPesquisa, string pesquisa, bool inativo);
@@ -248,6 +248,9 @@ namespace WEBServiceWCF
 
         [OperationContract]
         List<Operador> GetListaOperador(string tipoPesquisa, string pesquisa, bool inativo);
+
+        [OperationContract]
+        List<ListaEntrada> GetListaEntradas(string tipoPesquisa, string pesquisa);
 
         // ----- RELATÓRIOS -----
         [OperationContract]

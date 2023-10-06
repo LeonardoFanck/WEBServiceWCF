@@ -75,6 +75,7 @@
     <Compile Include="Classes\Estados.cs" />
     <Compile Include="Classes\FormaPGTO.cs" />
     <Compile Include="Classes\ListaCliente.cs" />
+    <Compile Include="Classes\ListaEntrada.cs" />
     <Compile Include="Classes\ListaPedido.cs" />
     <Compile Include="Classes\ListaProduto.cs" />
     <Compile Include="Classes\Operador.cs" />
