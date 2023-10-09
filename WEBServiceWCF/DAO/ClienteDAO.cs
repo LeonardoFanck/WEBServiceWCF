@@ -72,6 +72,7 @@ namespace WEBServiceWCF.DAO
                             retornoDB["CliCPF"].ToString(),
                             retornoDB["CliEmail"].ToString(),
                             retornoDB["DtNasc"].ToString(),
+                            retornoDB["CEP"].ToString(),
                             retornoDB["CliEstado"].ToString(),
                             retornoDB["CliCidade"].ToString(),
                             retornoDB["CliBairro"].ToString(),
@@ -117,6 +118,7 @@ namespace WEBServiceWCF.DAO
                     retornoDB["CliCPF"].ToString(),
                     retornoDB["CliEmail"].ToString(),
                     retornoDB["DtNasc"].ToString(),
+                    retornoDB["CEP"].ToString(),
                     retornoDB["CliEstado"].ToString(),
                     retornoDB["CliCidade"].ToString(),
                     retornoDB["CliBairro"].ToString(),
@@ -291,6 +293,11 @@ namespace WEBServiceWCF.DAO
             cmd.Parameters.Add(parametro, SqlDbType.NVarChar, 10);
             cmd.Parameters[parametro].Direction = ParameterDirection.Input;
             cmd.Parameters[parametro].Value = cliente.getSetDtNascimento;
+
+            parametro = "CEP";
+            cmd.Parameters.Add(parametro, SqlDbType.NVarChar, 10);
+            cmd.Parameters[parametro].Direction = ParameterDirection.Input;
+            cmd.Parameters[parametro].Value = cliente.getSetCEP;
 
             parametro = "Estado";
             cmd.Parameters.Add(parametro, SqlDbType.NVarChar, 50);

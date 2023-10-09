@@ -12,6 +12,7 @@ namespace WEBServiceWCF.Classes
         private string CPF;
         private string Email;
         private string DtNascimento;
+        private string CEP;
         private string Estado;
         private string Cidade;
         private string Bairro;
@@ -22,13 +23,14 @@ namespace WEBServiceWCF.Classes
 
         public Cliente() { }
 
-        public Cliente(int iD, string nome, string cPF, string email, string dtNascimento, string estado, string cidade, string bairro, string endereco, string numero, bool status, int moradia)
+        public Cliente(int iD, string nome, string cPF, string email, string dtNascimento, string cep, string estado, string cidade, string bairro, string endereco, string numero, bool status, int moradia)
         {
             ID = iD;
             Nome = nome;
             CPF = cPF;
             Email = email;
             DtNascimento = dtNascimento;
+            CEP = cep;
             Estado = estado;
             Cidade = cidade;
             Bairro = bairro;
@@ -66,6 +68,12 @@ namespace WEBServiceWCF.Classes
         {
             get { return DtNascimento; }
             set { DtNascimento = value; }
+        }
+
+        public string getSetCEP
+        {
+            get { return CEP; }
+            set { CEP = value; }
         }
 
         public string getSetEstado
