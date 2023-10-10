@@ -266,7 +266,8 @@ namespace WEBServiceWCF.DAO
             SqlDataReader retornoDB;
             List<Categoria> categorias = new List<Categoria>();
 
-            SQL = "SELECT * FROM Categoria";
+            SQL = "SELECT * FROM Categoria " +
+                "WHERE StatusCategoria = 0";
             cmd = new SqlCommand(SQL, con);
             cmd.CommandTimeout = conexao.timeOutSQL();
 

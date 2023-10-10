@@ -274,8 +274,20 @@ namespace WEBServiceWCF.DAO
             SqlConnection con = conexao.abrirConexao();
             SqlCommand cmd;
 					
-            SQL = "INSERT INTO ItensEntrada (IdEntrada, IdProduto, CustoProduto, QuantidadeProduto, DescontoProduto, CustoTotalProduto) " +
+            if (itens.getSetItemID == -1)
+            {
+                SQL = "INSERT INTO ItensEntrada (IdEntrada, IdProduto, CustoProduto, QuantidadeProduto, DescontoProduto, CustoTotalProduto) " +
                 "VALUES (@Entrada, @Produto, @Custo, @Quantidade, @Desconto, @CustoTotal)";
+            }
+            else
+            {
+                SQL = "UPDATE ItensEntrada " +
+                    $"SET CustoProduto = @Custo, " +
+                    $"QuantidadeProduto = @Quantidade, " +
+                    $"DescontoProduto = @Desconto, " +
+                    $"CustoTotalProduto = @CustoTotal " +
+                    $"WHERE IdEntrada = @Entrada AND IdItensEntrada = {itens.getSetItemID}";
+            }
 
             cmd = new SqlCommand(SQL, con);
 
@@ -299,7 +311,14 @@ namespace WEBServiceWCF.DAO
                 con = conexao.fecharConexao();
                 retornoDB.Close();
 
-                throw new Exception("Ocorreu um erro ao tentar inserir o Item!");
+                if (itens.getSetItemID == -1)
+                {
+                    throw new Exception("Ocorreu um erro ao tentar inserir o Item!");
+                }
+                else
+                {
+                    throw new Exception("Ocorreu um erro ao tentar atualizar o Item!");
+                }
             }
         }
 
